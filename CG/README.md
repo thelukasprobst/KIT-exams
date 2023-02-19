@@ -4,119 +4,62 @@ Enthält Aufgaben aller im WS 22/23 verfügbaren Klausuren.
 
 ## 01 Bilder, Farbe Perzeption
 
-- [ ] SS14/Aufgabe 1 (11 P.): Listen
-- [ ] SS14/Aufgabe 2 (18 P.): Lexalische Analyse, DEA
-- [ ] WS14/Aufgabe 1 (12 P.): Newton-Iteration
-- [ ] WS14/Aufgabe 2 (12 P.): Binärbäume
-- [ ] SS15/Aufgabe 1 (25 P.): Stringverarbeitung
-- [ ] WS15/Aufgabe 1 (20 P.): Unendliche Listen
-- [ ] WS15/Aufgabe 2 (5 P.): Typklassen
-- [ ] SS16/Aufgabe 1 (26 P.): Mehrwegbäume
-- [ ] SS17/Aufgabe 1 (22 P.): Semimagische Quadrate
-- [ ] SS17/Aufgabe 2 (7 P.): Bäume
-- [ ] WS17/Aufgabe 1 (7 P.): Divide-and-Conquer-Floatsummierung
-- [ ] WS17/Aufgabe 2 (18 P.): Ropes
-- [ ] SS18/Aufgabe 1 (15 P.): Vollkommene Zahlen
-- [ ] SS18/Aufgabe 2 (15 P.): `ListBuilder`
-- [ ] WS18/Aufgabe 1 (12 P.): Listen, Verhalten unendlicher Listen
-- [ ] WS18/Aufgabe 2 (18 P.): Queue-Datenstruktur, Binärbaum
-- [ ] SS19/Aufgabe 1 (19 P.): Unendliche Listen
-- [ ] SS19/Aufgabe 2 (16 P.): Assoziativlisten, `Maybe`
+- [ ] WS 10/11 HK, Aufgabe 1 (4 P.): Wahrnehmung und Farbräume
+- [ ] WS 10/11 NK, Aufgabe 1 (6 P.): Wahrnehmung, Farbe und Rasterbilder
+- [ ] WS 11/12 HK, Aufgabe 1 (10 P.): Wahrnehmung und Farbräume
 
 ## 02 Raytracing
 
-- [ ] SS14/Aufgabe 5 (20 P.): Java-Bytecode, Codeerzeugung
-- [ ] WS14/Aufgabe 4 (12 P.): Grundlagen, λ-Kalkül
-- [ ] SS15/Aufgabe 4 (17 P.): Haus vom Nikolaus (Eulerpfade)
-- [ ] WS15/Aufgabe 3 (20 P.): Rucksack-Problem
-- [ ] SS16/Aufgabe 2 (9 P.): NEA
-- [ ] SS16/Aufgabe 3 (8 P.): Grundlagen
-- [ ] SS17/Aufgabe 3 (7 P.): Prädikatenlogik (freie Variablen)
-- [ ] SS17/Aufgabe 4 (12 P.): Unifikationsalgorithmus nach Robinson
-- [ ] WS17/Aufgabe 3 (18 P.): Gewichtete Bäume
-- [ ] SS18/Aufgabe 3 (20 P.): Rot-Schwarz-Bäume
-- [ ] WS18/Aufgabe 3 (16 P.): Buchstabenrätsel, `not`
-- [ ] SS19/Aufgabe 3 (19 P.): NTM, `not`
+- [ ] WS 10/11 HK, Aufgabe 3 (6 P.): Ray-Tracing
+- [ ] WS 10/11 NK, Aufgabe 3 (4 P.): Supersampling und Baryzentrische Koordinaten
+- [ ] WS 11/12 HK, Aufgabe 2 (12 P.): Raytracing und prozedurale Modelle
+- [ ] WS 11/12 NK, Aufgabe 1 (16 P.): Beleuchtung
 
 ## 03 Transformationen
 
-- [ ] SS14/Aufgabe 3 (15 P.): Natürliche Zahlen, β-Reduktion
-- [ ] SS14/Aufgabe 4 (16 P.): Natürliche Zahlen, Typherleitung
-- [ ] WS14/Aufgabe 3 (17 P.): Freie Variablen, Redex, Normalform
-- [ ] SS15/Aufgabe 2 (15 P.): SKI-Kalkül
-- [ ] WS15/Aufgabe 4 (17 P.): Paare, Euklids Algorithmus
-- [ ] SS16/Aufgabe 4 (16 P.): Zählerobjekte, β-Reduktion
-- [ ] SS17/Aufgabe 6 (15 P.): Gleichheit auf Church-Zahlen
-- [ ] WS17/Aufgabe 5 (12 P.): Alternativer Fixpunktkombinator
-- [ ] SS18/Aufgabe 4 (13 P.): Currying
-- [ ] WS18/Aufgabe 5 (10 P.): Listen
-- [ ] WS18/Aufgabe 4b (3 P.): Church-Zahlen, β-Reduktion
-- [ ] WS18/Aufgabe 5 (10 P.): Listen
-- [ ] SS19/Aufgabe 4 (13 P.): SKI-Kalkül, η-Konversion
-
-## Texturen
-
-- [ ] SS14/Aufgabe 8 (11,5 P.): Matrizenmultiplikation
-- [ ] WS14/Aufgabe 9 (9 P.): Send/Recv
-- [ ] SS15/Aufgabe 5 (15 P.): Kollektive Operationen
-- [ ] WS15/Aufgabe 6 (5 P.): Kollektive Operationen
-- [ ] SS16/Aufgabe 8 (7 P.): MPI-Funktionen kennen
-- [ ] SS17/Aufgabe 7 (8 P.): MPI-Funktionen kennen
-- [ ] WS17/Aufgabe 6 (7 P.): Skalarprodukt
-- [ ] SS18/Aufgabe 6 (10 P.): Matrizen-/Vektormultiplikation
-- [ ] WS18/Aufgabe 6 (15 P.): MapReduce in MPI
-- [ ] SS19/Aufgabe 5 (10 P.): `Alltoall` implementieren
+- [ ] WS 10/11 HK, Aufgabe 7 (6 P.): Shading
+- [ ] WS 11/12 HK, Aufgabe 3 (11 P.): Transformationen
+- [ ] WS 11/12 HK, Aufgabe 6 (13 P.): Projektive Transformationen und Clipping
 
 ## 04 Texturen
 
-- [ ] SS16/Aufgabe 9 (10 P.): `if`, arithmetische/logische Operationen
-- [ ] SS17/Aufgabe 12 (5 P.): Java-Programm rekonstruieren
+- [ ] WS 10/11 HK, Aufgabe 4 (6 P.): Texturen
+- [ ] WS 10/11 NK, Aufgabe 4 (5 P.): Texturen
+- [ ] WS 11/12 HK, Aufgabe 4 (15 P.): Texturen
+- [ ] WS 11/12 NK, Aufgabe 3 (16 P.): Texturierung
 
 ## 05 Räumliche Datenstrukturen
 
-- [ ] SS14/Aufgabe 10 (10 P.): First-/Follow-Mengen
-- [ ] WS14/Aufgabe 10 (22 P.): Dangling-Else-Problem
-- [ ] SS15/Aufgabe 8 (18 P.): LISP
-- [ ] WS15/Aufgabe 10 (10 P.): X10-Teilmenge
-- [ ] SS17/Aufgabe 11 (3 P.): First-/Follow-Mengen
-- [ ] WS17/Aufgabe 9 (20 P.): Linksfaktorisierung, Rekursiver Abstieg
-- [ ] SS18/Aufgabe 8 (12 P.): Rekursiver Abstieg
-- [ ] WS18/Aufgabe 8 (19 P.): SLL-Kriterium, Rekursiver Abstieg für SGML
-- [ ] SS19/Aufgabe 7 (23 P.): Kompilierung von `do until`, Linksfaktorisierung, Rekursiver Abstieg
+- [ ] WS 10/11 HK, Aufgabe 5 (5 P.): Räumliche Datenstrukturen
+- [ ] WS 11/12 HK, Aufgabe 5 (19 P.): Hierarchische Datenstrukturen
+- [ ] WS 11/12 NK, Aufgabe 4 (18 P.): Hierarchische Datenstrukturen
 
 ## 06 Rasterisierung und Projektion
 
-- [ ] WS14/Aufgabe 5 (15 P.): Allgemeinster Unifikator, Herleitungsbaum
-- [ ] SS15/Aufgabe 3 (15 P.): Allgemeinster Unifikator, Herleitungsbaum
-- [ ] WS15/Aufgabe 5 (18 P.): Allgemeinster Unifikator, Herleitungsbaum
-- [ ] SS16/Aufgabe 5 (21 P.): Allgemeinster Unifikator, Herleitungsbaum
-- [ ] SS17/Aufgabe 5 (19 P.): Herleitungsbaum
-- [ ] WS17/Aufgabe 4 (15 P.): Typisierung von λ-Termen, Herleitungsbaum
-- [ ] SS18/Aufgabe 5 (15 P.): Allgemeinster Unifikator, Herleitungsbaum
-- [ ] WS18/Aufgabe 4ac (12 P.): Constraint-System, Typabstraktion
+- [ ] WS 10/11 HK, Aufgabe 6 (6 P.): Clipping
+- [ ] WS 10/11 HK, Aufgabe 8 (3 P.): Rasterisierung
+- [ ] WS 10/11 NK, Aufgabe 5 (8 P.): $$\alpha$$-Clipping
+- [ ] WS 10/11 NK, Aufgabe 6 (6 P.): Rasterisierung
 
 ## 07 OpenGL
 
-- [ ] SS17/Aufgabe 10 (6 P.): Informelles DbC
-- [ ] WS17/Aufgabe 8 (8 P.): Konto mit JML
-- [ ] SS18/Aufgabe 7ef (5 P.): Gefilterte Summe mit JML
-- [ ] WS18/Aufgabe 7de (5 P.): Synchronisierte Queue mit JML
-- [ ] SS19/Aufgabe 6de (5 P.): Maximaler Betrag-Kombinator mit JML
+- [ ] WS 10/11 HK, Aufgabe 9 (12 P.): OpenGL
+- [ ] WS 10/11 NK, Aufgabe 7 (6 P.): OpenGL
+- [ ] WS 10/11 NK, Aufgabe 8 (9 P.): Vertex- und Fragment-Shader
+- [ ] WS 11/12 HK, Aufgabe 7 (13 P.): OpenGL und Rasterisierung
+- [ ] WS 11/12 HK, Aufgabe 8 (16 P.): OpenGL-Shading-Language
+- [ ] WS 11/12 NK, Aufgabe 2 (17 P.): Blending
+- [ ] WS 11/12 NK, Aufgabe 5 (18 P.): Raycasting mit OpenGL und GLSL
+- [ ] WS 11/12 NK, Aufgabe 6 (21 P.): OpenGL
 
 ## 08 Prozedurales Modellieren
 
-- [ ] SS14/Aufgabe 6 (4 P.): Flynns Taxonomie
-- [ ] WS14/Aufgabe 6 (12 P.): Wissensfragen zu Parallelität
-- [ ] WS14/Aufgabe 7 (5 P.): Speedup-Berechnung
-- [ ] WS15/Aufgabe 7 (12 P.): Synchronisation in Java
-- [ ] WS15/Aufgabe 8 (7 P.): Semaphore in Java
-- [ ] SS16/Aufgabe 6 (16 P.): `BufferedAsyncWriter` in Java
-- [ ] SS16/Aufgabe 7 (7 P.): Thread-safe `ArrayList` in Java
-- [ ] WS17/Aufgabe 7 (15 P.): Paralleler Filter
-- [ ] SS18/Aufgabe 7abcd (15 P.): Gefilterte Summe
-- [ ] WS18/Aufgabe 7abc (10 P.): Synchronisierte Queue, Deadlocks, Race Conditions
-- [ ] SS19/Aufgabe 7abc (10 P.): Reduktion mit Fork-Join
+- [ ] WS 10/11 HK, Aufgabe 2 (7 P.): Prozedurale Modellierung
+- [ ] WS 10/11 NK, Aufgabe 2 (8 P.): Prozedurale Modelle
 
 ## 09 Kurven und Flächen
 
-- [ ] SS14/Aufgabe 9 (5,5 P.): Precedence-Regel (Typen lesen)
+- [ ] WS 10/11 HK, Aufgabe 10 (5 P.): Bézierkurven
+- [ ] WS 10/11 NK, Aufgabe 9 (8 P.): Bézier-Kurven
+- [ ] WS 11/12 HK, Aufgabe 9 (11 P.): Bézierkurven und Béziersplines
+- [ ] WS 11/12 NK, Aufgabe 7 (14 P.): Bézierkurven und Bézier-Splines
