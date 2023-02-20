@@ -1,0 +1,351 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage[inline]{enumitem}
+\setlist{noitemsep}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[nameinlink,noabbrev,ngerman]{cleveref} % has to be after hyperref
+\usepackage{nicefrac}  % for \nicefrac{1}{3}
+\usepackage{csquotes}  % for \enquote{what you want to quote}
+\usepackage{booktabs}  % for \toprule, \midrule and \bottomrule
+\usepackage{minted} % needed for the inclusion of source code
+
+% for \begin{enumerate}[label=(\Alph*)], see http://tex.stackexchange.com/a/129960/5645
+\usepackage{enumitem}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+\usepackage{wasysym}  % For \CheckedBox
+\usepackage{microtype}
+
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics*[width=0.8\linewidth, keepaspectratio]{1a.png}
+%     \caption{Whatever}
+%     \label{fig:1a}
+% \end{figure}
+
+\begin{document}
+\selectlanguage{ngerman}
+\title{2011 Nachklausur (WS 2010/11)}
+
+\setcounter{section}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Aufgabe 1: Wahrnehmung, Farbe und Rasterbilder}
+\subsection*{Teilaufgabe 1a}
+\textit{Was versteht man unter Metamerie beim Farbsehen des Menschen?}
+
+Metamerie ist das Phänomen, dass verschiedene Spektren den selben Farbeindruck
+erzeugen können.
+
+\subsection*{Teilaufgabe 1b}
+\textit{Was versteht man unter Schwarzkörperstrahlung und Farbtemperatur?}
+
+Ein Schwarzkörper ist eine idealisierte thermische Strahlungsquelle. Die
+idealisierung besteht darin, dass der Körper die komplette auftretende
+Strahlung vollständig absorbiert. Gleichzeitig sendet er Wärmestrahlung
+(Schwarzkörperstrahlung) aus, welche nur von seiner Temperatur abhängig ist.
+
+Die Farbtemperatur ist ein Maß, um einen jeweiligen Farbeindruck einer
+Lichtquelle zu bestimmen.
+
+\subsection*{Teilaufgabe 1c}
+Siehe \href{https://martin-thoma.com/html5/graphic-filters/graphic-filters.htm}{martin-thoma.com/html5/graphic-filters} zum ausprobieren.
+
+\begin{enumerate}[label=(\Alph*)]
+    \item Hervorheben von horizontalen Kanten.
+    \item Unschärfe / Weichzeichnen
+    \item Hervorheben aller Kanten (Schärfen; vgl. Übung 02\_Bildoperationen, Folie 19)\footnote{Siehe \href{https://martin-thoma.com/html5/graphic-filters/graphic-filters.htm?k1=0&k2=-1&k3=0&k4=-1&k5=5&k6=-1&k7=0&k8=-1&k9=0}{martin-thoma.com/html5/graphic-filters/graphic-filters.htm}}
+    \item Hervorheben aller Kanten (Invertierter Laplace-Filter), entfernen vom
+          Rest
+\end{enumerate}
+
+\subsection*{Teilaufgabe 1d}
+\textit{Was versteht man unter einem normalisierten Filterkernel?}
+
+Ein normalisierter Filterkernel hat als Summe der Element den Wert~1.
+
+\textit{Welche globale Eigenschaft eines Bildes ändert sich, wenn ein Filterkernel nicht normalisiert ist?}
+
+Die Gesamthelligkeit des Bildes ändert sich nicht (vgl. Übungsfolie \texttt{02\_Bildoperationen} Folie 19)
+
+\clearpage
+\section*{Aufgabe 2: Prozedurale Modelle}
+\subsection*{Teilaufgabe 2a}
+\textit{Was sind Turbulenzfunktionen und wie können Sie aus Noise-Funktionen gebildet werden?}
+
+Eine Turbulenzfunktion summiert $k$ Oktaven mehrerer Noise-Funktionen $n$ auf:
+
+\[\text{turbulence}(x) = \sum_k \left (\frac{1}{2} \right )^k \cdot n(2^k \cdot x)\]
+
+Einsatzgebiete:
+
+\begin{itemize}
+    \item Natürliche Oberflächen
+    \item Feuer
+\end{itemize}
+
+\subsection*{Teilaufgabe 2b: Kontext-Freie Lindenmayer-Systeme}
+
+\begin{enumerate}[label=(\arabic*)]
+    \item $F \;\;\;\rightarrow\;\;\;F [+F][-F]\;\;\;\rightarrow\;\;\;F [+F [+F][-F]] [-F [+F][-F]]$
+    \item $F \;\;\;\rightarrow\;\;\;F[+F]\;\;\;\rightarrow\;\;\;F[+F][+F[+F]]$
+    \item $F \;\;\;\rightarrow\;\;\;F [f - F] fF\;\;\;\rightarrow\;\;\;F [f - F] fF [f - F [f - F] fF] fF [f - F] fF$
+\end{enumerate}
+
+\subsection*{Teilaufgabe 2c: Turtle-Grafiken}
+
+\begin{itemize}
+    \item Die Grafik links oben ist (1)
+    \item Die Grafik in der Mitte, unten ist (2)
+    \item Die Grafik rechts unten ist (3)
+\end{itemize}
+
+\section*{Aufgabe 3: Supersampling und Baryzentrische Koordinaten}
+\subsection*{Teilaufgabe 3a}
+\textit{Was ist adaptives Supersampling?}
+
+Beim adaptiven Supersampling wird durch zwei benachbarte Pixel jeweils ein
+Strahl geschossen. Ist die Differenz der Pixelwerte über einem Schwellwert, so
+schießt man weitere Strahlen zwischen den beiden Pixeln. Dies wiederholt man
+so lange, bis man unter dem Schwellwert ist.
+
+\textit{Was ist stochastisches Supersampling mit Stratifikation?}
+
+Beim stochastischen Supersampling wird jeder Pixel in ein Gitter unterteilt
+und durch jeden Gitterpunkt wird mit einer gewissen Wahrscheinlichkeit ein
+Strahl geschossen.
+
+\textit{Was sind die Unterschiede zwischen adaptivem Supersampling und stochastischem
+Supersampling mit Stratifikation?}
+
+Adaptives Supersampling schießt nur bei Bedarf weitere Strahlen. Allerdings
+kann man Fälle konstruieren, wo adaptives Supersampling immer fehlschlägt.
+
+\subsection*{Teilaufgabe 3b}
+
+\begin{align}
+    \lambda_A &= \frac{A_\Delta(P,B,C)}{A_\Delta(A,B,C)} = \frac{2}{7.5} = \frac{4}{15}\\
+    \lambda_B &= \frac{A_\Delta(P,A,C)}{A_\Delta(A,B,C)} = \frac{2.5}{7.5} = \frac{5}{15}\\
+    \lambda_C &= \frac{A_\Delta(P,A,B)}{A_\Delta(A,B,C)} = \frac{3}{7.5} = \frac{6}{15}
+\end{align}
+
+\section*{Aufgabe 4: Texturen}
+\subsection*{Teilaufgabe 4a}
+\textit{Wie wird aus einer Textur eine Mip-Map-Pyramide erstellt?}
+
+Man erzeugt Mip-Maps durch \enquote{zusammenfassen} von jeweilse $2 \times 2$
+Texeln. Es werden solange neue Mip-Map-Stufen generiert, bis man eine Mip-Map
+erzeugt hat, die nur noch aus einem Texel besteht. In Stufe 0 wird die
+ursprüngliche Textur gespeichert, in Stufe 1 dann eine Textur die in beiden
+Dimensionen halbiert wurde usw.
+
+\textit{Wie hoch ist der zusätzliche Speicherbedarf?}
+
+Der zustätzliche Speicherbedarf $z$ ist $\approx \nicefrac{1}{3}$ der ursprünglichen
+Texturgröße.
+
+Beweis:
+
+Es gilt:
+\[z = \sum_{i=1}^\infty \left (\frac{1}{4} \right )^i\]
+
+Dies ist eine geometrische Reihe. Die Summe der ersten $n$ Terme ist
+\[\frac{1- (\nicefrac{1}{4})^n}{1 - \nicefrac{1}{4}}\]
+
+daher gilt:
+\[\lim_{n \rightarrow \infty} = 1 - \frac{1}{1 - \nicefrac{1}{4}} = \nicefrac{1}{3}\]
+
+\subsection*{Teilaufgabe 4b}
+\textit{Welche Probleme bei der Texturfilterung im Fall der Verkleinerung (Texture Minification) löst Mip-Mapping?}
+
+Mip-Mapping verringert Aliasing-Effekte.
+
+\textit{Welche Probleme bei der Texturfilterung im Fall der Verkleinerung löst Mip-Mapping nicht?}
+
+Verwaschenes aussehen bei länglichem Footprint, da Mip-Map isotrop (TODO: erklären, ausformulieren).
+
+\subsection*{Teilaufgabe 4c}
+\textit{Wofür verwendet man Environment Mapping?}
+
+Darstellung reflektierender Objekte mit Spiegelung von Umgebung ohne
+geometrische Repräsentation.
+
+\textit{Was speichert eine Environment Map?}
+
+Beleuchtungsinformationen
+
+\textit{Welche vereinfachenden Annahmen werden bei der Anwendung getroffen?}
+
+Der Betrachter ist sehr weit von der Umgebung entfernt, sodass die Position
+keine Rolle spielt und ausschließlich die Blickrichtung wichtig ist.
+
+
+\section*{Aufgabe 5: $\alpha$-Clipping}
+\subsection*{Teilaufgabe 5a}
+
+\begin{align}
+    \text{WEC}_{x_\text{min}}(P_0) &= -3-0 =-3 & \text{WEC}_{x_\text{min}}(P_1) &= 6-0 =6\\
+    \text{WEC}_{x_\text{max}}(P_0) &= 10+3 =13 & \text{WEC}_{x_\text{max}}(P_1) &= 10-6 =4\\
+    \text{WEC}_{y_\text{min}}(P_0) &= 4-0 = 4 & \text{WEC}_{y_\text{min}}(P_1) &= -2-0 =-2\\
+    \text{WEC}_{y_\text{max}}(P_0) &= 6-4 = 2 & \text{WEC}_{y_\text{max}}(P_1) &= 6+2 =8
+\end{align}
+
+\goodbreak
+\subsection*{Teilaufgabe 5b}
+\textit{Wenn Sie alleine die WEC betrachten, welche Kanten des Viewports werden dann potenziell geschnitten? Begründen Sie Ihre Antwort mit Hilfe der Outcodes!}\\
+Da für $\text{WEC}_{x_\text{min}}(P_0) < 0$ und $\text{WEC}_{y_\text{min}}(P_1) < 0$
+ist der Outcode $x_\text{min}(P_0) = 1$ und Outcode $y_\text{min}(P_1) = 1$.
+Daraus folgt, dass $x_\text{min}$ und $y_\text{min}$ auf Schnitt getestet
+werden müssen. (TODO: Stimmt das?)
+
+\subsection*{Teilaufgabe 5c}
+\begin{align}
+    \alpha_{max} &= 1,\;\;\; \alpha_{min} = 0\\
+    \alpha_{min} &= \max(\alpha_{min}, \alpha_s) = \nicefrac{1}{3}\\
+    \alpha_s &= \frac{\text{WEC}_{y_\text{min}}(P_1)}{\text{WEC}_{y_\text{min}}(P_0) - \text{WEC}_{y_\text{min}}(P_1)} = \nicefrac{4}{6} = \nicefrac{2}{3}\\
+    \alpha_{max} &= \min(\alpha_{max}, \alpha_s) = \nicefrac{2}{3}
+\end{align}
+
+Das neue Liniensegment ist somit $(P_0 + \nicefrac{1}{3} \cdot (P_1- P_0), P_1 - \nicefrac{2}{3} \cdot (P_1- P_0))$.
+
+\section*{Aufgabe 6}
+\subsection*{Teilaufgabe 6a}
+\textit{Was ist der Unterschied zwischen Gouraud- und Phong-Shading bei der Schattierung eines Dreiecks mit einem Rasterisierungsverfahren?}
+
+\begin{itemize}
+	\item \textbf{Gouraud:} Beleuchtungsberechnung nur an den Eckpunkten mit gemittelter Normale der angrenzenden Facetten
+	\item \textbf{Phong:} Beleuchtungsberechnung pro Fragment mit interpolierter Normale
+\end{itemize}
+
+\subsection*{Teilaufgabe 6b}
+\textit{Was versteht man unter einem Accumulation-Buffer, wie Sie ihn von OpenGL kennen?}
+
+Der Accumulation-Buffer ist ein Zwischenspeicher zur Kombination mehrerer
+Redineringschritte.
+
+\textit{Nennen Sie zwei Beispiele für Effekte, die sich mit einem Accumulation-Buffer erreichen lassen!}
+
+\begin{itemize}
+    \item Bewegungsunschärfe
+    \item Tiefenunschärfe
+\end{itemize}
+
+\subsection*{Teilaufgabe 6c}
+
+\begin{tabular}{p{8cm}ccp{4cm}}\toprule
+Aussage & Wahr & Falsch & Begründung \\\midrule
+T-Vertices können bei Phong-Shading Artefakte verursachen. & \CheckedBox & $\square$ & TODO: Wirklich? \\
+Z-Fighting kann durch die Repräsentation der Tiefenwerte mit beschränkter Genauigkeit im Tiefenpuffer entstehen. & \CheckedBox & $\square$ & TODO: Wirklich?          \\
+Je feiner eine Oberfläche tesselliert wird, umso geringer werden die Unterschiede zwischen Gouraud- und Phong-Shading. & \CheckedBox & $\square$ & TODO: Wirklich?          \\
+Bei der Rasterisierung ist eine perspektivisch korrekte Abbildung der Textur aufwendiger als eine affine, da pro Pixel eine zusätzliche Division benötigt wird. & $\square$ & $\square$ & TODO          \\
+Der Scissor-Test dient dazu, durchsichtige Teile einer Oberfläche gemäß einer Textur wegzuschneiden. & $\square$ & \CheckedBox & Dient dazu Teile auserhalb des Rechtecks wegzuschneiden (vgl. OpenGL Teil 2, Folie 103) \\
+Screendoor-Transparency stellt transparente Objekte mittels Blending dar. & $\square$ & $\square$ & TODO \\\bottomrule
+\end{tabular}
+
+
+\section*{Aufgabe 7: OpenGL}
+\subsection*{Teilaufgabe 7a: Blending}
+\subsection*{Teilaufgabe 7a (1)}
+
+Es erfolgt kein Blending. Durch den aktivierten Tiefentest wird der rote Würfel
+nicht beachtet, da er hinter dem blauen Ball liegt. Daher:
+
+\texttt{color(P) = (0.0, 0.0, 1.0, 0.5)}
+
+siehe \enquote{OpenGL Teil 2 und 3}, Folie 88.
+
+\subsection*{Teilaufgabe 7a (2)}
+\begin{align}
+    c' &= 1 \cdot (0,0,1,0.5) + 0.5 \cdot (0,0,0,0) = (0,0,1,0.5)\\
+    c  &= 1 \cdot (1,0,0,0.5) + 0.5 \cdot (0,0,1,0.5) = (1,0,0.5,0.75)
+\end{align}
+
+\subsection*{Teilaufgabe 7b}
+\textit{Bringen Sie die folgende Operationen in die richtige Reihenfolge, wie sie in der Fixed-
+Function-Pipeline von OpenGL ausgeführt werden:}
+
+Die Fixed Function Pipeline kann nur Gouraud oder Flat Shading. Das heißt, die
+Beleuctung wird pro Vertex in Kamera Koordinaten berechnet. Dementsprechend:
+\begin{enumerate}
+    \item Model-View-Transformation anwenden (1)
+    \item Projektionstransformation anwenden (4)
+    \item Beleuchtungsberechnung (5)
+    \item Texturierung (3)
+    \item Tiefentest (2)
+\end{enumerate}
+
+Leider sind wir uns bei dieser Lösung ziemlich unsicher (siehe \href{https://github.com/MartinThoma/KIT-Musterloesungen/issues/22}{GitHub issue(s)}).
+
+\begin{itemize}
+    \item Beleuchtungsberechnung in Kamerakoordinaten nach der
+          Modelview-Transformation (Folie 39 $\Rightarrow$ Erst (1), dann (5))
+\end{itemize}
+
+\subsection*{Teilaufgabe 7c}
+Zwischen 2 und 3, da die Rasterisierung nur für Dreiecke erfolgen soll, die
+im Viewfrustum liegen.
+
+\section*{Aufgabe 8}
+\subsection*{Teilaufgabe 8a}
+\begin{tabular}{p{8cm}p{1.5cm}p{1.5cm}p{1.5cm}}\toprule
+Operation                          & Vertex-Shader & Fragment-Shader & Weder noch \\\midrule
+Model-View-Transformation anwenden & \CheckedBox   & $\square$       & $\square$ \\ % \CheckedBox
+Tiefentest                         & $\square$     & $\square$       & \CheckedBox \\
+Texturierung                       & $\square$     & \CheckedBox     & $\square$ \\
+Projektionstransformation anwenden & \CheckedBox   & $\square$       & $\square$ \\
+Beleuchtungsberechnung             & $\square$     & \CheckedBox     & $\square$ \\
+Clipping                           & $\square$     & $\square$       & \CheckedBox \\\bottomrule
+\end{tabular}
+
+\subsection*{Teilaufgabe 8b}
+\begin{itemize}
+    \item \texttt{attribute}: Attribut eines Vertex; nur für Vertex-Shader; z.B. Farbe oder Normale
+    \item \texttt{uniform}: Bei jedem Shader-Aufruf gleich (also insbesondere für jeden Vertex gleich); read-only; z.B. Transformationsmatrix
+    \item \texttt{varying}: weitergegebene/interpolierte Werte (schreiben in einem Shader, lesen im darauffolgenden Shader)
+\end{itemize}
+
+\subsection*{Teilaufgabe 8c}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader.vert]{glsl}{shader.vert}
+
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader.frag]{glsl}{shader.frag}
+
+
+\section*{Aufgabe 9: Bézier-Kurven}
+\subsection*{Teilaufgabe 9a}
+
+\begin{align}
+     & b_0 \cdot (1-2u + u^2) + b_1 (2u - 2u^2) + b_2 \cdot u^2\\
+    =& b_0 - 2 b_0 u + b_0 u^2 + 2 b_1 u - 2 b_1 u^2 + b_2 u^2\\
+    &= \underbrace{(b_0 - 2 b_1 - b_2)}_{= a_2} u^2  + \underbrace{(2 b_1 - 2 b_0)}_{= a_1} u + \underbrace{b_0}_{= a_0}
+\end{align}
+
+\subsection*{Teilaufgabe 9b}
+\textit{Was versteht man unter affiner Invarianz der Bézier-Repräsentation?}
+
+Für jede Bézierkurve $F(u)$ und jede affine Abbildung $\varphi(x) = A x + t$ gilt:
+
+\[\varphi(F(u)) = \sum_{i=0}^n B_i^n(u) \varphi(\mathbf{b}_i)\]
+
+Das heißt es genügt bei Transformationen die Kontrollpunkte $\mathbf{b}_i$
+zu transformieren.
+
+\subsection*{Teilaufgabe 9c}
+Für $C^0$-Stetigkeit muss $c_0 = b_3 = (4, 1)$ gelten.
+
+Für $C_1$-Stetigkeit muss $b_2 - b_3 = c_0 - c_1 \Leftrightarrow (3,1) - (4,1) = (4,1) = \underbrace{(5,1)}_{= c_1}$ gelten.
+
+Für $C_2$-Stetigkeit muss
+
+\begin{align}
+    b_2 + (b_2 - b_1) &= c_1 + (c_1 - c_2)\\
+    \Leftrightarrow (3,1) + ((3,1) - (1,2)) &= (5,1) + ((5,1) - c_2))\\
+    \Leftrightarrow (5, 0) &= (10, 2) - c_2\\
+    \Leftrightarrow c_2 &= (5, 2)
+\end{align}
+\end{document}

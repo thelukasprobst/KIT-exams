@@ -1,0 +1,344 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage[inline]{enumitem}
+\setlist{noitemsep}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[nameinlink,noabbrev,ngerman]{cleveref} % has to be after hyperref
+\usepackage{nicefrac}  % for \nicefrac{1}{3}
+\usepackage{csquotes}  % for \enquote{what you want to quote}
+\usepackage{booktabs}  % for \toprule, \midrule and \bottomrule
+\usepackage{minted} % needed for the inclusion of source code
+
+% for \begin{enumerate}[label=(\Alph*)], see http://tex.stackexchange.com/a/129960/5645
+\usepackage[inline]{enumitem}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+\usepackage{wasysym}  % For \CheckedBox
+\usepackage{microtype}
+
+\begin{document}
+\selectlanguage{ngerman}
+\title{2011 Hauptklausur (WS 2010/11)}
+
+
+\setcounter{section}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Aufgabe 1: Wahrnehmung und Farbräume}
+\subsection*{Teilaufgabe 1a}
+\textit{Welche Eigenschaft der menschlichen Wahrnehmung wird durch das Weber-Fechner-Gesetz beschrieben?}
+
+Das Weber-Fechner-Gesetz macht eine Aussage über die subjektiv empfundene
+Stärke von Sinneseindrücken im Abhängigkeit von der Intensität des
+Helligkeitsunterschiedes.
+
+Es wird die Eigenschaft, dass die Stärke des Sinneseindrucks von der Intensität
+logarithmisch abhängt beschrieben.
+
+
+\subsection*{Teilaufgabe 1b}
+\textit{Was ist der Gamut eines Monitors?}
+
+Der Gamut eines Monitors entspricht dem Spektrum der darauf darstellbaren
+Farben.
+
+\subsection*{Teilaufgabe 1c}
+\begin{tabular}{p{8cm}llll}\toprule
+Aussage                                                  & RGB & CMY & HSV & CIE xyY \\\midrule
+Der Farbraum ist additiv.                                & \CheckedBox & $\square$   & $\square$   & $\square$ \\
+Der Farbraum ist subtraktiv.                             & $\square$   & \CheckedBox & $\square$   & $\square$ \\
+Der Farbraum ist multiplikativ.                          & $\square$   & \CheckedBox & $\square$   & $\square$ \\
+Der Farbraum trennt Luminanz von Chrominanz.             & $\square$   & $\square$   & \CheckedBox & \CheckedBox \\
+Der Farbraum kann alle sichtbaren Farben repräsentieren. & $\square$   & $\square$   & ~           & \CheckedBox       \\
+Der Farbraum wird nativ auf Peripheriegeräten verwendet. & \CheckedBox & \CheckedBox & $\square$   & $\square$ \\\bottomrule
+\end{tabular}
+
+\clearpage
+\section*{Aufgabe 2: Prozedurale Modellierung}
+\subsection*{Teilaufgabe 2a}
+\textit{Nennen Sie einen Vorteil und einen Nachteil prozeduraler Beschreibungen! Nennen Sie
+zwei Beispiele für deren Modellierung prozedurale Modelle gut geeignet sind!}
+
+\begin{itemize}
+    \item \textbf{Vorteil}: Wenig Speicherplatz wird benötigt
+    \item \textbf{Nachteil}: Komplexe Beschreibung
+    \item \textbf{Beispiele}
+    \begin{itemize}
+        \item Bäume, Gebirge, Vegetation
+        \item Hypertextures (Wolken)
+        \item Landschaften
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Teilaufgabe 2b}
+\textit{Was versteht man unter Rauschtexturen nach Perlin?}
+
+Überlagerung verschiedener Frequenzbereiche (spektrale Synthese) zur Erzeugung
+von Rauschfunktionen für Texturen.
+
+\textit{Was sind wichtige Eigenschaften dieser Rauschtexturen?}
+
+\begin{enumerate*}[label=(\arabic*)]
+    \item Reproduzierbarkeit
+    \item Keine sichtbare Periodizität
+\end{enumerate*}
+
+\textit{Geben Sie eine einfache Möglichkeit an, um 2D-Rauschtexturen zu berechnen.}
+
+Rauschtexturen können anhand eines 2D-Gitters mit Zufallswerten und
+interpolation berechnet werden.
+
+\section*{Aufgabe 3: Ray-Tracing}
+\subsection*{Teilaufgabe 3a}
+\textit{Nennen Sie die vier Arten von Strahlen, die beim
+Whitted-Style-Ray-Tracing auftreten können. Welche dieser Strahlen benötigen
+zur Berechnung Rekursion?}
+
+\begin{enumerate*}[label=(\arabic*)]
+    \item Primärstrahlen
+    \item Reflektionsstrahlen (rekursiv)
+    \item Transmissionsstrahlen (rekursiv)
+    \item Schattenstrahlen
+\end{enumerate*}
+
+\clearpage
+\subsection*{Teilaufgabe 3b}
+\textit{Nennen Sie die zwei Abbruchkriterien für die Rekursion, die Sie in der
+Vorlesung kennengelernt haben! Welchen Vorteil haben die Kriterien jeweils?}
+\begin{enumerate}[label=(\arabic*)]
+    \item \textbf{Maximale Rekursionstiefe}: Ist einfach zu implementieren
+    \item \textbf{Schwellwertunterschreitung} (der Zusätzliche Beitrag
+    unterschreitet einen vorgegebenen Schwellwert): Ist adaptiv
+\end{enumerate}
+
+\subsection*{Teilaufgabe 3c}
+\textit{In welchem Fall ist keine (weitere) Rekursion notwendig, nachdem ein
+Schnittpunkt gefunden wurde?}
+
+\begin{enumerate*}[label=(\arabic*)]
+    \item Es exisitiert keine Lichtquelle (dann muss man gar nicht erst anfangen)
+    \item Wenn eine nicht reflektierende Oberfläche getroffen wird, muss kein
+          Reflexionsstrahl ausgesendet werden
+    \item Schnittpunkt mit einer Lichtquelle
+    \item Rekursionsabbruchbedingung erreicht
+    \item Schnittpunkt hinter Kamera
+    \item Näherer Schnittpunkt existiert
+\end{enumerate*}
+
+\section*{Aufgabe 4: Texturen}
+\subsection*{Teilaufgabe 4a}
+\textit{Was versteht man unter Magnification und Minification bei der Texturierung? Nennen
+und erläutern Sie kurz je eine Möglichkeit, wie Sie den hierbei auftretenden Artefakten
+begegnen können.}
+
+\begin{itemize}
+    \item \textbf{Magnification}: Wenige Texel werden auf viele Pixel abgebildet.
+    \begin{itemize}
+        \item Problem: Bild ist unscharf
+        \item Lösung: Bilineare Interpolation
+    \end{itemize}
+    \item \textbf{Minification}: Viele Texel werden auf wenige Pixel abgebildet.
+    \begin{itemize}
+        \item Problem: Aliasing durch Unterabtastung
+        \item Lösung: Supersampling oder Vorfilterung (z.B. Mipmaps, ripemaps)
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Teilaufgabe 4b}
+\textit{Nennen Sie zwei Parametrisierungen für Environment Maps und für jede angegebene
+Parametrisierung einen Vorteil oder Nachteil.}\\
+\begin{itemize}
+    \item \textbf{Sphere-Map}
+    \begin{itemize}
+        \item[-] Singularität am Rand
+        \item[+] Mit Kamera, Chromkugel und Photoshop kann sie recht einfach
+                 aufgenommen / erstellt werden
+    \end{itemize}
+    \item \textbf{Cube-Map} hat den Vorteil, sie bei korrekter Filterung
+          Nahtlos ist.
+    \item \textbf{LatLong-Map} hat den Nachteil, dass die Pole ungleichmäßig
+          abgetastet werden.
+\end{itemize}
+
+\section*{Aufgabe 5: Räumliche Datenstrukturen}
+\subsection*{Teilaufgabe 5a}
+\textit{Begründen Sie, warum und wofür räumliche Datenstrukturen für
+Ray-Tracing von komplexen Szenen besonders wichtig sind!}
+
+Zur Beschleunigung der Schnittpunktberechnung bei Szenen mit vielen Objekten /
+Primitiven.
+
+\subsection*{Teilaufgabe 5b}
+\begin{tabular}{cp{8cm}llll}\toprule
+\# & Aussage                                                                                                 & BVH           & Octree           & Gitter           & BSP \\\midrule
+ 1 & Der Aufbau-Algorithmus ist adaptiv und passt die Datenstruktur deshalb automatisch an die Geometrie an. & \CheckedBox   & \CheckedBox      & $\square$        & \CheckedBox   \\
+ 2 & Die Datenstruktur wird durch einen Binärbaum repräsentiert.                                             & \CheckedBox   & $\square$        & $\square$        & \CheckedBox   \\
+ 3 & Objekte werden bei der Traversierung potentiell mehrfach von demselben Strahl geschnitten.              & $\square$     & \CheckedBox      & \CheckedBox      & \CheckedBox\footnotemark   \\
+ 4 & Bei der Traversierung wird leerer Raum effizient übersprungen.                                          & \CheckedBox   & \CheckedBox      & $\square$        & \CheckedBox  \\
+ 5 & Der Raum wird durch die Datenstruktur immer achsenparallel unterteilt.\footnotemark                     & \CheckedBox   & \CheckedBox      & \CheckedBox      & $\square$   \\
+ 6 & Bei der Konstruktion kann die Surface-Area-Heuristik sinnvoll eingesetzt werden.                        & \CheckedBox   & $\square$        & $\square$        & \CheckedBox   \\\bottomrule
+\end{tabular}
+\footnotetext{\href{https://github.com/MartinThoma/KIT-Musterloesungen/issues/55}{github.com/MartinThoma/KIT-Musterloesungen/issues/55}}
+
+\footnotetext{Da der BVH hier AABBs verwendet, sind diese natürlich achsenparallel. Die Frage ist, wie \enquote{unterteilt} zu verstehen ist. BVHs und Ocgtrees decken --- im Gegensatz zu kD-Bäumen --- nicht den gesamten Raum ab. Bzw. nur indirekt.}
+
+\clearpage
+\section*{Aufgabe 6: Clipping}
+\subsection*{Teilaufgabe 6a}
+\textit{Mit welchen Kanten der Clipping-Region wird die Strecke $\overline{P_{1}P_{2}}$ beim Cohen-Sutherland-
+Clipping-Algorithmus potenziell geschnitten?}
+
+\begin{enumerate}
+    \item Outcode($P_1$): 1010; Outcode($P_2$): 0100
+    \item Outcode($P_1$) $|$ Outcode($P_2$) $ = 1110 \neq 0000 \Rightarrow$ kein trivial accept.
+    \item Outcode($P_1$) \& Outcode($P_2$) $ = 0000 \Rightarrow$ kein trivial reject.
+    \item Es werden potentiell die linke (10xx), untere (xx10) und rechte
+          (01xx) Kante geschnitten, da die entsprechenden Optcodes gesetzt sind
+\end{enumerate}
+
+\textit{Wovon hängt es ab, mit welchen Kanten die Strecke tatsächlich
+geschnitten wird?}
+
+Welche Kanten tatsächlich geschnitten werden hängt von der Reihenfolge der
+Schnitte ab.
+
+
+\subsection*{Teilaufgabe 6b}
+
+\textit{In welchen Fällen kann der Algorithmus ausschließlich anhand der Outcodes eine
+beliebige Strecke $\overline{AB}$ eliminieren?}
+
+In den \textit{trivial accept} und \textit{trivial reject} Fällen kann der
+Alglorithmus ausschlieslich anhand der Optcodes eine Strecke eliminieren.
+
+\textit{Welche Bitoperation wird mit den Outcodes hierzu durchgeführt?}\\
+
+Bit-weises und (\&) für trivial reject und bit-weises oder ($|$) für trivial
+accept.
+
+
+\section*{Aufgabe 7: Shading}
+\subsection*{Teilaufgabe 7a}
+\begin{tabular}{p{8cm}lll}\toprule
+Aussage                                                                                                                                                                                                                   & Flat           & Gouraud           & Phong \\\midrule
+Die Normale wird für jeden Pixel aus Normalen der Eckpunkte interpoliert.                                                                                                                                                 & $\square$      & $\square$         & \CheckedBox     \\
+Der Mach-Band-Effekt (Machsche Streifen) kann sichtbar werden / auftreten.                                                                                                                                                & $\CheckedBox$      & \CheckedBox   & $\square$       \\
+Die Beleuchtung wird ausschließlich an den Vertex-Positionen berechnet und anschließend interpoliert.                                                                                                                     & $\square$      & \CheckedBox       & $\square$       \\
+Für die Berechnung der Beleuchtung wird die Flächennormale des Dreiecks verwendet.                                                                                                                                        & \CheckedBox    & $\square$         & $\square$       \\
+Die Ebene in Abbildung 1, repräsentiert durch ein Dreiecksnetz, soll diffuse und spekulare Reflexionseigenschaften aufweisen. Dann ändert sich durch eine feinere Unterteilung der Ebene die berechnete Beleuchtung nicht.& $\CheckedBox$   & $\square$        & \CheckedBox     \\
+Wird in der Fixed-Function-Pipeline von OpenGL unterstützt.                                                                                                                                                               & \CheckedBox    & \CheckedBox       & $\square$       \\\bottomrule
+\end{tabular}
+
+\subsection*{Teilaufgabe 7b}
+\textit{Wie werden Normalenvektoren beim Phong-Shading interpoliert?}
+
+Normalen werden im linear Verhältnis des Abstands zu den Eckpunkten berechnet
+(Baryzentrische Koordinaten).
+
+\textit{Warum muss im Allgemeinen nach der Interpolation erneut normalisiert werden?}
+
+Die ermittelte normale kann eine Länge $\neq 1$ aufweisen.
+
+
+\subsection*{Teilaufgabe 7c}
+\textit{Kann man das Blinn-Phong-Beleuchtungsmodell mit Flat-Shading kombinieren?}
+
+Ja. Man kann die Dreiecksnormale für die Berechnung des Diffusanteils pro Pixel
+verwenden.
+
+\section*{Aufgabe 8: Rasterisierung}
+\begin{tabular}{p{8cm}llp{4cm}}\toprule
+Aussage                                                                                                                  & Wahr           & Falsch \\\midrule
+Sichtbarkeit wird vor der Rasterisierung berechnet.                                                                      & $\square$      & \CheckedBox &     \\
+Opake Primitive können mit korrekter Verdeckungsberechnung rasterisiert werden, ohne vorher explizit sortiert zu werden. & \CheckedBox    & $\square$   &     \\
+Der Tiefenwert (z-Wert) kann mit Hilfe von baryzentrischen Koordinaten korrekt im Bildraum interpoliert werden.          & $\square$      & \CheckedBox & Im Bildraum hängt $z$ nach der Projektion nicht mehr linear von den Eckpunkten des Dreiecks ab (vgl. \href{http://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/visibility-problem-depth-buffer-depth-interpolation}{Link})   \\
+Der Tiefenwert, der im Tiefenpuffer gespeichert wird, hängt von den Abständen der Near- und Far-Plane zur Kamera ab.     & \CheckedBox    & $\square$   &    \\
+Transparente Oberflächen können ohne vorherige Sortierung korrekt dargestellt werden.                                    & $\square$      & \CheckedBox &    \\
+In OpenGL wird der Tiefentest vor den Alpha- und Stenciltests durchgeführt.                                              & $\square$      & \CheckedBox &    \\\bottomrule
+\end{tabular}
+
+
+\section*{Aufgabe 9: OpenGL}
+\subsection*{Teilaufgabe 9a}
+\textit{Welchen Vorteil haben Dreiecksstreifen (\texttt{GL\_TRIANGLE\_STRIP})
+im Vergleich zu isolierten Dreiecken (\texttt{GL\_TRIANGLES})?}\\
+Beim Triangle-Strip werden die Vertices für mehrere Dreiecke verwendet. Es muss
+also weniger gespeichert werden.
+
+\subsection*{Teilaufgabe 9b}
+\textit{Was versteht man unter einem Indexed Face Set? Welche Optimierung bei
+der Geometrieverarbeitung wird dadurch erst ermöglicht?}\\
+Liste von Indices für die Vertices in einem Polygonmesh. Die Vertices werden
+also indirekt referenziert. Dadurch wird die Verwendung eines Vertexcache
+ermöglicht.
+
+\subsection*{Teilaufgabe 9c}
+\textit{Was versteht man bei OpenGL unter \enquote{Blending}? Nennen Sie eine
+wichtige Anwendung wofür es eingesetzt werden kann!}\\
+Blending bezeichnet die Farbkombination (z.B. Überlagerung) von erzeugten
+Fragmenten und Pixeln im Framebuffer. Dadurch lassen sich semi-transparente
+Objekte darstellen.
+
+\subsection*{Teilaufgabe 9d}
+\textit{Geben Sie zwei kommutative Blending-Einstellungen mittels OpenGL-Befehlen an.
+Gehen Sie dabei davon aus, dass als Blending-Verknüpfungsoperation die Addition
+eingestellt ist.}\\
+
+\begin{itemize}
+    \item \texttt{glBlendFunc(GL\_ONE, GL\_ONE)}
+    \item \texttt{glBlendFunc(GL\_ZERO, GL\_ZERO)}
+\end{itemize}
+
+\subsection*{Teilaufgabe 9e}
+\textit{Erläutern Sie die Aufgaben eines Vertex-Shaders bzw. Vertex-Programms
+und welche Ein- und Ausgabedaten zur Verfügung stehen und erzeugt werden müssen
+bzw. können!}\\
+Ein Vertex-Shader transformiert einen Vertex und verarbeitet dessen Attribute
+(Position, Normale, Farbe/Texturkoordinate, \dots).
+
+\begin{itemize}
+    \item Input: \texttt{gl\_Vertex}, Matrizen (MVP-Matrix)
+    \item Output: \texttt{gl\_Position} nach MVP-Transformation, \texttt{gl\_Normal}
+\end{itemize}
+
+
+\section*{Aufgabe 10: Bézierkurven}
+\subsection*{Teilaufgabe 10a}
+\textit{Wie nennt man den Algorithmus zur rekursiven Auswertung von
+Bézierkurven, der auch eine grafische Repräsentation hat?}
+
+Algorithmus von De Casteljau.
+
+\clearpage
+\subsection*{Teilaufgabe 10b}
+\textit{Zählen Sie vier wichtige Eigenschaften von Bézierkurven, die Sie in der
+Vorlesung kennengelernt haben, auf.}
+
+\begin{itemize}
+    \item \textbf{Tangentenbedingung}:
+          $c_0 c_1$ ist Tangential an die Bezierkurve am Anfang,
+          $c_2 c_3$ ist Tangential an die Bezierkurve am Ende.
+    \item \textbf{Wertebereich}: Bézierkurven liegen innerhalb der konvexen
+          Hülle, die durch die 4~Kontrollpunkte gebildet werden.
+    \item \textbf{Endpunktinterpolation}: Bézierkurven beginnen immer beim
+          ersten Kontrollpunkt und enden beim letzten Kontrollpunkt.
+    \item \textbf{Variationsredukion}: Eine Bézierkurve $F$ wackelt nicht stärker
+          als ihr Kontrollpolygon $B$ ($\sharp (H \cap F) \leq \sharp (H \cap B)$).
+    \item \textbf{Affine Invarianz}
+\end{itemize}
+
+\subsection*{Teilaufgabe 10c}
+\begin{figure}[h]
+    \centering
+    \includegraphics*[width=0.7\linewidth, keepaspectratio]{10c-bezier.png}
+    \caption{Skizze zu Aufgabe 10c}
+    \label{fig:10c}
+\end{figure}
+
+\end{document}

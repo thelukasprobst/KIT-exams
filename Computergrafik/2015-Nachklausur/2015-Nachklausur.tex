@@ -1,0 +1,583 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage[inline]{enumitem}
+\setlist{noitemsep}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[nameinlink,noabbrev,ngerman]{cleveref} % has to be after hyperref
+\usepackage{nicefrac}
+\usepackage{csquotes}
+\usepackage{booktabs}  % for \toprule, \midrule and \bottomrule
+
+\usepackage{minted} % needed for the inclusion of source code
+\usepackage{tikz}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+\usepackage{microtype}
+
+\begin{document}
+\selectlanguage{ngerman}
+\title{2015 Nachklausur (WS 2014/15)}
+
+\setcounter{section}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Aufgabe 1: Raytracing}
+\subsection*{Teilaufgabe 1a}
+Phong-Beleuchtungsmodell anwenden:
+
+\begin{itemize}
+    \item Berechnung des ambienten Anteils (indirekte Beleuchtung, Licht von anderen Oberflächen)
+    \item Berechnung der Reflektion
+    \begin{itemize}
+        \item Berechnung des spekularen Reflektion. Diese findet nur in Richtung
+              $R_L = 2 N \cdot (N \cdot L)$ statt. In alle andren Richtungen
+              fällt sie stark ab:
+              \[I_s = k_s \cdot I_L \cdot \cos^n \alpha = k_s \cdot I_L (R_L \cdot V)^n\]
+              wobei $n$ der Phong-Exponent ist.
+        \item Berechnung der diffusen (Lambertschen) Reflektion:
+              \[I_d = k_d \cdot I_L \cdot \cos \theta = k_d \cdot I_L \cdot (N \cdot L) \]
+    \end{itemize}
+\end{itemize}
+
+Also:
+
+\[I = \underbrace{k_a \cdot I_L}_{\text{ambient}} + \underbrace{k_d \cdot I_L \cdot (N \cdot L)}_{\text{diffus}} + \underbrace{k_s \cdot I_L (R_L \cdot V)^n}_{\text{spekular}}\]
+
+Auch:
+
+\begin{itemize}
+    \item Berechnung von Schattenstrahlen
+    \item Weitere, Strahlen rekursive verschießen
+\end{itemize}
+
+
+\subsection*{Teilaufgabe 1b}
+\includegraphics*[width=0.8\linewidth, keepaspectratio]{1b.jpg}
+
+\section*{Aufgabe 2: Farben und Spektren}
+\subsection*{Teilaufgabe 2a: Farbräume}
+
+\begin{itemize}
+    \item RGB: LCD/CRT-Displays
+    \item CMYK: Drucker
+    \item HSV: Comuter Vision
+    \item XYZ Color Space: Farbraum für Konversion zwischen Farbräumen
+    \item Lab-Farbraum: TODO
+\end{itemize}
+
+\subsection*{Teilaufgabe 2b: Gamma-Korrektur}
+\textit{Nennen Sie einen Grund für die Durchführung von Gamma-Korrektur!}
+
+Helligkeiten werden vom Menschen nicht linear wahrgenommen und von einem
+Bildschirm auch nicht linear ausgegeben. Um trotzdem einen linearen
+Helligkeitseindruck entstehen zu lassen wendet man die Gamakorrektur an.
+
+\subsection*{Teilaufgabe 2c: Metamerismus}
+\textbf{Metamerismus} ist das Phänomen, dass unterschiedliche Spektren gleich
+aussehen können. Dies ist wichtig für Monitore, da sie aufgrund dieses
+Phänomens mit nur 3~Farben den gleichen Farbeindruck erwecken können wie mit
+einem komplexeren Spektrum.
+
+\section*{Aufgabe 3: Transformationen}
+\subsection*{Teilaufgabe 3a}
+Transformationen mit homogenen Koordianten laufen Grundsätzlich nach folgendem Schema ab:
+\[\begin{pmatrix}\tilde{x}\\ \tilde{y} \\ 1\end{pmatrix} \gets T \cdot \begin{pmatrix}x\\ y \\ 1\end{pmatrix}\]
+
+Die Transformationsmatrix $T$ für die Translation von homogenen Koordinaten ist von der Form
+
+\[T = \begin{pmatrix}1 & 0 & \Delta x\\0 & 1 & \Delta y\\0 & 0 & 1\end{pmatrix}\]
+
+Die Transformationsmatrix $R$ für eine Rotation um den Punkt $c = (c_x, c_y)$ um den Winkel $\alpha$ ist
+
+\[R_{\alpha, c} = \begin{pmatrix}          1 &            0 & c_x\\          0 &           1 & c_y\\0 & 0 & 1\end{pmatrix} \cdot
+  \begin{pmatrix}\cos \alpha & -\sin \alpha &   0\\\sin \alpha & \cos \alpha &   0\\0 & 0 & 1\end{pmatrix} \cdot
+  \begin{pmatrix}          1 &            0 &-c_x\\          0 &           1 &-c_y\\0 & 0 & 1\end{pmatrix}\]
+
+Die Idee ist nun, zuerst eine Rotation um $90^\circ$ gegen den Urzeigersinn
+um $(0, 0)$ zu machen (Matrix $R$). Dann wird das Rechteck in Richtung der $x$-Achse um
+die hälfte gestaucht (Matrix $S$) und schließlich um $0.5$ nach links verschoben (Matrix $T$):
+
+\begin{align}
+    R &= \begin{pmatrix}\cos 90 & -\sin 90 &   0\\\sin 90 & \cos 90 &   0\\0 & 0 & 1\end{pmatrix}
+       = \begin{pmatrix}0 & -1 &   0\\1 & 0 &   0\\0 & 0 & 1\end{pmatrix}\\
+    S &= \begin{pmatrix}0.5 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{pmatrix}\\
+    T &= \begin{pmatrix}1 & 0 & -0.5\\0 & 1 & 0\\0 & 0 & 1\end{pmatrix}\\
+    M &= T \cdot S \cdot R\\
+      &= \begin{pmatrix}0 & -0.5 & -0.5\\1 & 0 & 0\\0 & 0 & 1\end{pmatrix}
+\end{align}
+
+Zur Kontrolle:
+
+\begin{align}
+    M \cdot \begin{pmatrix}0\\0\\1\end{pmatrix} &= \begin{pmatrix}-0.5\\0\\1\end{pmatrix}
+    & M \cdot \begin{pmatrix}1\\0\\1\end{pmatrix} &= \begin{pmatrix}-0.5\\1\\1\end{pmatrix}\\
+    M \cdot \begin{pmatrix}1\\1\\1\end{pmatrix} &= \begin{pmatrix}-1\\1\\1\end{pmatrix}
+    & M \cdot \begin{pmatrix}0\\1\\1\end{pmatrix} &= \begin{pmatrix}-1\\0\\1\end{pmatrix}
+\end{align}
+
+
+\subsection*{Teilaufgabe 3b: Koordinatensysteme}
+\begin{align}
+    z' &= E - C\\
+    x' &= u \times z'\\
+    y' &= z' \times x'
+\end{align}
+ Das Koordinaten-System ist dann gegeben durch die normierten Basisvektoren
+ sowie den Ursprung $E$.
+
+\subsection*{Teilaufgabe 3c}
+Die Transformation von Welt- in Kamerakoordinaten wird auch
+\textit{Kameratransformation} genannt. Die virtuelle Kamera ist durch die
+Position $\mathbf{e}$ und die negative Blickrichtung $\mathbf{w}$ definiert.
+Mithilfe des Up-Vektors $\mathbf{up}$ ergibt sich
+
+\[\mathbf{u} = \mathbf{up} \times \mathbf{w} \;\;\;\;\; \mathbf{v} = \mathbf{w} \times \mathbf{u}\]
+
+Es wird zuerst eine Translation um $-\mathbf{e}$ durchgeführt und dann
+eine Transformation in das Kamera-Koordiantensystem durchgeführt. Die Basis
+des Kamera-Koordinatensystems ist $\mathbf{u}, \mathbf{v}, \mathbf{w}$.
+
+Das Verschieben ist einfach die Matrix
+
+\[T = \begin{pmatrix}
+1 & 0 & 0 & -e_x\\
+0 & 1 & 0 & -e_y\\
+0 & 0 & 1 & -e_z\\
+0 & 0 & 0 & 1\end{pmatrix}\]
+
+nun muss noch rotiert werden:
+
+\[R = \begin{pmatrix}
+u_x & u_y & u_z & 0\\
+v_x & v_y & v_z & 0\\
+w_x & w_y & w_z & 0\\
+0 & 0 & 0 & 1\end{pmatrix}\]
+
+Die Gesamttrasformationsmatrix ist also $V = R \cdot T$.
+
+(vgl. \texttt{03\_ Transformationen und homogene Koordinaten.pdf}, Folie 50)
+
+\section*{Aufgabe 4: Phong-Beleuchtungsmodell}
+\subsection*{Teilaufgabe 4a}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[width=0.8\linewidth, keepaspectratio]{reflection-angles.png}
+    \caption{Situationsskizze. $r_l$ ist die reflektion von $L$ an $n$ in $P$.}
+    \label{fig:situation-4a}
+\end{figure}
+
+\[\mathbf{r}_l = 2 \cdot \mathbf{n} \cdot (\mathbf{n} \cdot \mathbf{l}) - \mathbf{l}\]
+
+Kaptiel 2, Folie 96.
+
+
+\subsection*{Teilaufgabe 4b}
+Die spekulare Komponente im Phong Beleuchtungsmodell lautet
+\[I_s = k_s \cdot I_L \cdot \cos^e \alpha = k_s \cdot I_L (\mathbf{r}_l \cdot \mathbf{v})^e\]
+
+\subsection*{Teilaufgabe 4c}
+\begin{enumerate}
+    \item[(i)] Wie verändert sich das Glanzlicht, wenn $e$ größer wird?
+    \item[$\Rightarrow$] Das Glanzlicht wird kleiner, aber intensiver.
+    \item[(ii)] Wie verändert sich das Glanzlicht, wenn die Kugel um eine beliebige Achse rotiert?
+    \item[$\Rightarrow$] Da $N,L, R_L, n, I_L, k_a, k_d, k_s, V$ gleich bleiben ändert sich das Glanzlicht nicht.
+\end{enumerate}
+
+
+\section*{Aufgabe 5: Dreiecke und Schattierung}
+\subsection*{Teilaufgabe 5a}
+\textbf{Lösung 1:} $\mathbf{n}' = (\mathbf{P}_3 - \mathbf{P}_1) \times (\mathbf{P}_2 - \mathbf{P}_1) \qquad \mathbf{n} = \frac{\mathbf{n}'}{|\mathbf{n}'|}$
+
+\textbf{Lösung 2:}
+Drei Punkte $P_1, P_2, P_3$ definieren eine Ebene. Diese Ebene ist eine Menge
+von Punkten
+
+\[\{x \in \mathbb{R}^3 | x \text{ liegt auf der Ebene von } P_1, P_2, P_3\} = \{x \in \mathbb{R}^3 = n \cdot x = d\}\]
+
+Es gilt also folgendes Gleichungssystem zu lösen:
+
+\begin{align}
+    \|n\| &= 1\\
+    n_x \cdot P_{1, x} + n_y \cdot P_{1, y} + n_z \cdot P_{1, z} &= d\\
+    n_x \cdot P_{2, x} + n_y \cdot P_{2, y} + n_z \cdot P_{2, z} &= d\\
+    n_x \cdot P_{3, x} + n_y \cdot P_{3, y} + n_z \cdot P_{3, z} &= d
+\end{align}
+
+\subsection*{Teilaufgabe 5b}
+Die Normalen der Vertizes eines Dreiecksnetzes können wie folgt berechnet
+werden:
+
+\begin{enumerate}
+    \item Berechne Normale jedes Dreiecks
+    \item Für jeden Vertex wird nun die Summe der Normalen der angrenzenden
+          Dreiecke gebildet.
+    \item Die Vertex-Normalen werden normalisiert, indem sie durch ihre Länge
+          geteilt werden.
+\end{enumerate}
+
+\subsection*{Teilaufgabe 5c}
+Gouraud-Shading berechnet die Werte (z.B. Farbe) an den Eckpunkten der Dreiecke
+und interpoliert die Werte im Inneren der Dreieck mithilfe der Eckpunktwerte.
+
+Phong-Shading nutzt die Normalen an den Eckpunkten zur Interpolation von
+Normalen innerhalb des Dreiecks. Diese werden für weitere
+Beleuchtungsberechnungen verwendet.
+
+Insbesondere bei Glanzlichtern kann dies einen Unterschied machen. Beim
+Gouraud-Shading können Glanzlichter verloren gehen.
+
+\subsection*{Teilaufgabe 5d}
+Gouraud-Shading im Vergleich zu Phong-Shading
+\begin{itemize}
+    \item Vorteil: Schnellere Berechnung
+    \item Nachteil: Schlechtere Ergebnisse (z.\,B. Mach'scher Bandeffekt)
+\end{itemize}
+
+
+\section*{Aufgabe 6: Texturen und Texturfilterung}
+\subsection*{Teilaufgabe 6a}
+vgl. geometrische Interpretation (Kaptiel 2, Folie 43)
+
+\begin{align}
+    \lambda_1 &= \frac{A_\Delta(S, P_2, P_3)}{A_\Delta(P_1, P_2, P_3)}\\
+    \lambda_2 &= \frac{A_\Delta(P_1, S, P_3)}{A_\Delta(P_1, P_2, P_3)}\\
+    \lambda_3 &= \frac{A_\Delta(P1, P_2, S)}{A_\Delta(P_1, P_2, P_3)}
+\end{align}
+
+
+\subsection*{Teilaufgabe 6b}
+\[T_S = \sum_{i=1}^3 \lambda_i T_i\]
+
+\subsection*{Teilaufgabe 6c}
+\begin{itemize}
+    \item Magnification; Beispiele: Unschärfe, harte Kanten, Blockbildung
+    \item Minification; Beispiel: Aliasing-Artefakte durch Unterabtastung
+\end{itemize}
+
+\subsection*{Teilaufgabe 6d}
+\textit{Welche texturbezogenen Lösungen bietet OpenGL an, um die Artefakte aus
+Aufgabe c) zu reduzieren? Erklären Sie stichpunktartig, wie sie funktionieren!}
+
+\begin{itemize}
+    \item \textbf{Mipmaping}: Speichere originale Textur in 0.~Stufe, dann
+          halbiere pro Stufe die Textur in jeder Dimension.
+    \item \textbf{Anisotrope Texturfilterung (RIPs)}: Vorfilterungen unabhängig
+          jeder Achse RIPs bzw. Anisotrope Filterung ist anscheinend keine
+          Kernfunktionalität von OpenGL, wird aber durch Extensions
+          unterstützt.
+\end{itemize}
+
+
+\subsection*{Teilaufgabe 6e}
+Unter trilinearer Texturfilterung versteht man eine bilineare Interpolation
+der Stufe $n$, eine bilineare Interpolation der Stufe $n+1$ und dann eine
+lineare Interpolation dieser beiden Farben.
+
+\subsection*{Teilaufgabe 6f}
+\begin{itemize}
+    \item \texttt{GL\_TEXTURE\_MAG\_FILTER}: The texture magnification function
+    is used when the pixel being textured maps to an area less than or equal to
+    one texture element. It sets the texture magnification function to either
+    \texttt{GL\_NEAREST} or \texttt{GL\_LINEAR}. \texttt{GL\_NEAREST} is
+    generally faster than
+    \texttt{GL\_LINEAR}, but it can produce textured images with sharper edges
+    because the transition between texture elements is not as smooth. The
+    initial value of \texttt{GL\_TEXTURE\_MAG\_FILTER} is \texttt{GL\_LINEAR}.\\
+    Quelle: \href{https://www.talisman.org/opengl-1.1/Reference/glTexParameter.html}{www.talisman.org/opengl-1.1/Reference/glTexParameter.html}
+    \item \texttt{GL\_TEXTURE\_MIN\_FILTER}: The texture minifying function is used whenever the pixel being textured maps to an area greater than one texture element. There are six defined minifying functions. Two of them use the nearest one or nearest four texture elements to compute the texture value. The other four use mipmaps. [...]\\
+    Quelle: \href{https://www.talisman.org/opengl-1.1/Reference/glTexParameter.html}{www.talisman.org/opengl-1.1/Reference/glTexParameter.html}
+\end{itemize}
+
+Bilineare Filterung (Kaptiel 4, Folie 38):
+
+\begin{align}
+    a &= \frac{\frac{3}{8} - \frac{1}{4}}{\frac{1}{2}} = \frac{1}{4}\\
+    b &= \frac{\frac{1}{2} - \frac{1}{4}}{\frac{1}{2}} = \frac{1}{2}\\
+    t_{12} &= t_1 + a(t_2 - t_1) = 16 + \frac{1}{4} \cdot (-16) = 12\\
+    t_{34} &= (1-a) t_3 + a t_4 = \frac{7}{8} \cdot 0 + \frac{1}{4} \cdot 32 = 8\\
+    t &= (1-b) t_{12} + b t_{34} = \frac{1}{2} \cdot 12 + \frac{1}{2} \cdot 8 = 10
+\end{align}
+
+\clearpage
+\section*{Aufgabe 7: Projektionen}
+Wir müssen eine Matrix $M \in \mathbb{R}^{3 \times 3}$ finden, welche die
+Projektion von Punkten $P \in [0, \infty)^2$ auf den Unterraum
+$\{P \in [0, \infty)^2 | P_x + P_y = 1\}$ transformiert.
+
+Die Homogenen Koordinaten $(x, y, z)$ entsprechen den 2D-Koordinaten
+$(\frac{x}{z}, \frac{y}{z})$.
+
+% Eine homogene Matrix hat in der letzten Zeile immer $(0, 0, 1)$ stehen. Damit
+% bleiben noch 6~Parameter zu finden.
+\goodbreak
+Es gilt, dass alle Punkte auf der $x$-Achse auf (1, 0) abgebildet werden:\nobreak
+\begin{align}
+    m_{1,1} \cdot x_1 + m_{1,2} \cdot 0 + m_{1,3} \cdot 1 &= m_{3,1} \cdot x_1 + m_{3,2} \cdot 0 + m_{3,3} \cdot 1 \;\;\; \forall x_1 \in [0, \infty) \label{eq:x-1}\\
+    m_{2,1} \cdot x_1 + m_{2,2} \cdot 0 + m_{2,3} \cdot 1 &= 0 \;\;\; \forall x_1 \in [0, \infty)
+\end{align}
+
+Daraus folgt: $m_{2,1} = 0, m_{2,3} = 0$. Außerdem lässt sich \cref{eq:x-1}
+vereinfachen:
+
+\begin{align}
+    m_{1,1} \cdot x_1 +  m_{1,3} &= m_{3,1} \cdot x_1 + m_{3,3} \;\;\; \forall x_1 \in [0, \infty)\\
+    (m_{1,1} - m_{3,1}) \cdot x_1 + (m_{1,3} - m_{3,3}) &= 0 \;\;\; \forall x_1 \in [0, \infty)\label{eq:x-1.1}
+\end{align}
+
+Daher gilt:
+
+\begin{itemize}
+    \item $m_{1,1} = m_{3,1}$
+    \item $m_{1,3} = m_{3,3}$
+\end{itemize}
+
+Bisher wissen wir:\nobreak
+\[M = \begin{pmatrix}            m_{1,1} & m_{1,2} & m_{3,3}\\
+                                       0 & m_{2,2} & 0\\
+                                 m_{1,1} & m_{3,2} & m_{3,3}\end{pmatrix}\]
+
+\goodbreak
+Des weiteren gilt, dass alle Punkte auf der $y$-Achse auf (0, 1) abgebildet werden:\nobreak
+\begin{align}
+    m_{1,1} \cdot 0 + m_{1,2} \cdot x_2 + m_{1,3} \cdot 1 &= 0 \;\;\; \forall x_2 \in [0, \infty)\\
+    m_{2,1} \cdot 0 + m_{2,2} \cdot x_2 + m_{2,3} \cdot 1 &= m_{3,1} \cdot 0 + m_{3,2} \cdot x_2 + m_{3,3} \cdot 1 \;\;\; \forall x_2 \in [0, \infty)
+\end{align}
+
+Wie zuvor, folgt: $m_{1,2} = m_{1,3} = 0$. Es verbleiben 3~Parameter.
+\goodbreak
+Bisher wissen wir:\nobreak
+\[M = \begin{pmatrix}      m_{1,1} &       0 & 0\\
+                                 0 & m_{2,2} & 0\\
+                           m_{1,1} & m_{3,2} & 0\end{pmatrix}\]
+
+Es gilt, dass alle Punkte auf der Diagonalen auf $(\frac{1}{2}, \frac{1}{2})$
+abgebildet werden:
+
+\begin{align}
+    m_{1,1} \cdot x &= \nicefrac{1}{2} \cdot (m_{1,1} x + m_{3,2} x) \;\;\; \forall x \in [0, \infty)\\
+    m_{2,2} \cdot x &= \nicefrac{1}{2} \cdot (m_{1,1} x + m_{3,2} x) \;\;\; \forall x \in [0, \infty)
+\end{align}
+
+Für $x \neq 0$ kann man hier beide Gleichungen jeweils durch $x$ teilen und erhält:
+
+\begin{align}
+    m_{1,1} &= m_{3,2} \;\;\; \forall x \in (0, \infty)\\
+    m_{2,2} &= \nicefrac{1}{2} \cdot (m_{1,1} + m_{3,2}) \;\;\; \forall x \in (0, \infty)\label{eq:m22}\\
+    \overset{\ref{eq:m22}}{\Rightarrow} m_{2,2} &= m_{1,1}
+\end{align}
+
+Bisher wissen wir:\nobreak
+\[M = \begin{pmatrix}      m_{1,1} &       0 & 0\\
+                                 0 & m_{1,1} & 0\\
+                           m_{1,1} & m_{1,1} & 0\end{pmatrix}\]
+
+Nun gilt für die Transformation:
+
+\begin{align}
+    T(\begin{pmatrix}x\\y\end{pmatrix}) &= M \cdot \begin{pmatrix}x\\y\\1\end{pmatrix}\\
+      &= \begin{pmatrix}m_{1,1} \cdot x\\m_{1,1} \cdot y\\m_{1,1} \cdot (x+y)\end{pmatrix}\\
+      &= \begin{pmatrix}\frac{x}{x+y}\\\frac{y}{x+y}\end{pmatrix}
+\end{align}
+
+Die Konkrete Wahl von $m_{1,1}$ ist also egal, solange $m_{1,1} \neq 0$. Wähle
+oBdA $m_{1,1} = 1$ und daher:
+
+\[M = \begin{pmatrix}      1 & 0 & 0\\
+                           0 & 1 & 0\\
+                           1 & 1 & 0\end{pmatrix}\]
+
+Für den Punkt (2,1) gilt also:
+
+\[\begin{pmatrix}1 & 0 & 0\\
+                 0 & 1 & 0\\
+                 1 & 1 & 0\end{pmatrix} \cdot \begin{pmatrix}2\\1\\1\end{pmatrix}_H = \begin{pmatrix}2\\1\\3\end{pmatrix}_H = \begin{pmatrix}\nicefrac{2}{3}\\\nicefrac{1}{3}\end{pmatrix}\]
+
+
+\section*{Aufgabe 8: Beschleunigungsstrukturen}
+\subsection*{Teilaufgabe 8a}
+Um Schnitttests zu beschleunigen, kann man den Raum durch ein Gitter in Zellen
+unterteilen. Für jede Zelle nimmt man die AABB des Objekts um zu bestimmen,
+ob ein Objekt in der Zelle ist. Wenn man dann den Schnittest macht, schaut man
+zuerst welche Zellen der Strahl traversiert. Für jede Zelle schaut man ob dort
+Objekte sind und macht den Schnittest mit den Objekten. Nun kann ein Objekt in
+mehreren Zellen sein, aber den Schnitttest macht man nur das erste mal. Dannach
+speichert man sich, dass der Schnitttest des Strahls mit dem Objekt bereits
+gemacht wurde. Dieses Speichern nennt man \textit{mailboxing} (vgl. Kapitel~5, Folie~56).
+
+Die Schnitttests sind in \cref{fig:schnitttests} dargestellt.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[width=0.8\linewidth, keepaspectratio]{schnittests.png}
+    \caption{Alle durchgeführten Schnitttests.}
+    \label{fig:schnitttests}
+\end{figure}
+
+Die Anzahl der Schnittests ist:
+
+\begin{itemize}
+    \item Q1 mit Strahl: Schnitt
+    \begin{itemize}
+        \item Q1.1 mit Strahl: Schnitt, aber hat kein Kind
+        \item Q1.2 mit Strahl: kein Schnitt
+        \item Q1.3 mit Strahl: Schnitt
+        \begin{itemize}
+            \item Q1.3.1 mit Strahl: Schnitt. Schnitttest mit I.
+            \item Q1.3.2 mit Strahl: kein Schnitt.
+            \item Q1.3.3 mit Strahl: Schnitt. Schnitttest mit H.
+            \item Q1.3.4 mit Strahl: Schnitt. Schnitttest mit I.
+        \end{itemize}
+        \item Q1.4 mit Strahl: Schnitt. Schnittest mit G.
+    \end{itemize}
+    \item Q2 mit Strahl: kein Schnitt
+    \item Q3 mit Strahl: Schnitt
+    \begin{itemize}
+        \item Q3.1 mit Strahl: Schnitt
+        \begin{itemize}
+            \item Q3.1.1: Schnitt.
+            \item Q3.1.2 mit Strahl: Kein Schnitt.
+            \item Q3.1.3 mit Strahl: Schnitt. Schnitttest mit C.
+            \item Q3.1.4 mit Strahl: Schnitt. Schnitttest mit C.
+        \end{itemize}
+        \item Q3.2 mit Strahl: kein Schnitt.
+        \item Q3.3 mit Strahl: Schnitt.
+        \begin{itemize}
+            \item Q3.3.1 mit Strahl: Schnitt.
+            \item Q3.3.2 mit Strahl: Kein Schnitt
+            \item Q3.3.3 mit Strahl: Schnitt
+            \begin{itemize}
+                \item Q3.3.3.1 mit Strahl: Schnitt. Schnitttest mit A.
+                \item Q3.3.3.2 mit Strahl: kein Schnitt
+                \item Q3.3.3.3 mit Strahl: Schnitt. Schnitttest mit A.
+                \item Q3.3.3.4 mit Strahl: Schnitt. Schnitttest mit A.
+            \end{itemize}
+            \item Q3.3.4 mit Strahl: Schnitt.
+        \end{itemize}
+        \item Q3.4 mit Strahl: Schnitt. Schnitttest mit C.
+    \end{itemize}
+    \item Q4 mit Strahl: Schnitt.
+\end{itemize}
+
+\subsection*{Teilaufgabe 8b}
+\begin{itemize}
+    \item[1] Der Baum einer Hüllkörperhierarchie ist immer balanciert.
+    \item[$\Rightarrow$] Falsch.
+    \item[2] Der Speicherbedarf für ein reguläres Gitter ist unabhängig von der Anzahl der Primitive.
+    \item[$\Rightarrow$] Falsch. Man muss pro Zelle speichern welche Objekte diese Zelle enthält.
+    \item[3] Ein kD-Baum hat immer achsenparallele Split-Ebenen.
+    \item[$\Rightarrow$] Richtig. Siehe Folie 85.
+    \item[4] Ein kD-Baum braucht spezielle Vorkehrungen, um redundante
+             Schnitttests mit demselben Dreieck auszuschließen.
+    \item[$\Rightarrow$] Richtig. Mailboxing.
+    \item[5] Ein Verfahren zur Erzeugung eines kD-Baumes erzeugt auch gültige BSP-Bäume.
+    \item[$\Rightarrow$] Richtig. kD-Bäume sind Spezialfälle von BSP-Bäumen.
+    \item[6] Reguläre uniforme Gitter leiden nicht unter dem Teapot-in-a-Stadium Problem.
+    \item[$\Rightarrow$] Falsch. Das \enquote{Teapot-in-a-Stadium} Problem bezeichnet
+    das Problem, dass Resourcen bei regulären Gittern verschwendet werden weil
+    die meisten Zellen leer sind und einige wenige die gesamte Komplexität
+    beinhalten. Ein riesiges Objekt (das Stadium) und ein deutlich kleineres,
+    aber komplexes Objekt (Teapot) rufen es hervor.
+    \item[7] Die Komplexität der Bestimmung eines Schnittpunktes in einem BSP-Baum mit $n$ Primitiven liegt im Optimalfall in $\mathcal{O}(\log n)$.
+    \item[$\Rightarrow$] Richtig. Im Optimalfall ist der BSP-Baum balanciert.
+    \item[8] Das Traversieren einer Hüllkörperhierarchie kann abgebrochen werden sobald ein Schnittpunkt gefunden wurde.
+    \item[$\Rightarrow$] Falsch. Es könnte einen Schnitt geben, der näher zur Kamera ist (TODO: Beispiel in Folien raussuchen.)
+\end{itemize}
+
+\clearpage
+\section*{Aufgabe 9: Instancing (GLSL)}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader.vert]{glsl}{shader.vert}
+
+\clearpage
+\section*{Aufgabe 10: Normal Mapping in Objektkoordinaten (GLSL)}
+
+Siehe \href{https://github.com/MartinThoma/KIT-Musterloesungen/issues/16}{github.com/MartinThoma/KIT-Musterloesungen/issues/16}
+
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader.frag]{glsl}{shader.frag}
+
+\clearpage
+\section*{Aufgabe 11: Bézier-Kurven und Bézier-Splines}
+\subsection*{Teilaufgabe 11a}
+Damit ein Bézier-Spline, welcher aus $C^2$-stetig ist, muss er $C^0$ und $C^1$ stetig sein.
+Für $C^0$-Stetigkeit muss nur $\mathbf{b}_3 = \mathbf{c}_0$ gelten.
+
+Für $C^1$-Stetigkeit muss $\mathbf{b}_3 - \mathbf{b}_2 = \mathbf{c}_1 - \mathbf{c}_0$ gelten. Das heißt:
+
+\begin{align}
+    \mathbf{b}_3 - \mathbf{b}_2 &\overset{!}{=} \mathbf{c}_1 - \mathbf{c}_0\\
+    \begin{pmatrix}7\\8\end{pmatrix} - \begin{pmatrix}5\\9\end{pmatrix}
+    &\overset{!}{=}
+    \mathbf{c}_1 - \begin{pmatrix}7\\8\end{pmatrix}\\
+    \Leftrightarrow \mathbf{c}_1 &\overset{!}{=} \begin{pmatrix}9\\7\end{pmatrix}
+\end{align}
+
+Für $C^2$-Stetigkeit muss zusätzlich noch folgende Bedingung gelten:
+
+\begin{align}
+    \mathbf{b}_{2} + (\mathbf{b}_{2} - \mathbf{b}_{1}) &\overset{!}{=} \mathbf{c}_{1} + (\mathbf{c}_{1} - \mathbf{c}_{2})\\
+    \begin{pmatrix}5\\9\end{pmatrix} + \left (\begin{pmatrix}5\\9\end{pmatrix} - \begin{pmatrix}3\\9\end{pmatrix} \right )
+    &\overset{!}{=}
+    \begin{pmatrix}9\\7\end{pmatrix} + \left (\begin{pmatrix}9\\7\end{pmatrix} - \mathbf{c}_{2} \right)\\
+    \Leftrightarrow \begin{pmatrix}7\\9\end{pmatrix} &\overset{!}{=} \begin{pmatrix}18\\14\end{pmatrix} - \mathbf{c}_{2}\\
+    \Leftrightarrow \mathbf{c}_{2} &\overset{!}{=} \begin{pmatrix}11\\5\end{pmatrix}
+\end{align}
+
+Das sieht dann wie folgt aus:
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[every circle/.style={radius=2pt}]
+    	\draw[help lines] (0,0) grid (12,12);
+    	\draw[thick,->] (0,0) -- (13,0) node[below right] {x};
+    	\draw[thick,->] (0,0) -- (0,13) node[left] {y};
+    	\draw foreach \x in {1,...,11} {(\x,0.2) -- (\x,-0.2) node[below] {\x}};
+    	\draw foreach \y in {1,...,11} {(0.2,\y) -- (-0.2,\y) node[left] {\y}};
+    	
+    	\fill  (2,2) coordinate[label=right:$\mathbf{b}_0$] (b0) circle;
+    	\fill  (3,9) coordinate[label=above:$\mathbf{b}_1$] (b1) circle;
+    	\fill  (5,9) coordinate[label=above:$\mathbf{b}_2$] (b2) circle;
+    	\fill  (7,8) coordinate[label=below left:$\mathbf{b}_3 {=} \mathbf{c}_0$] (b3) circle;
+    	\fill  (9,7) coordinate[label=right:$\mathbf{c}_1$] (c1) circle;
+    	\fill (11,5) coordinate[label=right:$\mathbf{c}_2$] (c2) circle;
+    	\fill (11,2) coordinate[label=right:$\mathbf{c}_3$] (c3) circle;
+    	
+    	\draw      (b0) .. controls (b1) and (b2) .. (b3);
+    	\draw[red] (b3) .. controls (c1) and (c2) .. (c3);
+    \end{tikzpicture}
+    \caption{Ergebnisspline.}
+    \label{fig:situation-11a}
+\end{figure}
+\clearpage
+
+\subsection*{Teilaufgabe 11b}
+Bézierkurven sind immer:
+
+\begin{itemize}
+    \item \textbf{Tangentenbedingung}:
+          $c_0 c_1$ ist Tangential an die Bezierkurve am Anfang,
+          $c_2 c_3$ ist Tangential an die Bezierkurve am Ende.
+    \item \textbf{Wertebereich}: Bézierkurven liegen innerhalb der konvexen
+          Hülle, die durch die 4~Kontrollpunkte gebildet werden.
+    \item \textbf{Endpunktinterpolation}: Bézierkurven beginnen immer beim
+          ersten Kontrollpunkt und enden beim letzten Kontrollpunkt.
+    \item \textbf{Variationsredukion}: Eine Bézierkurve $F$ wackelt nicht stärker
+          als ihr Kontrollpolygon $B$ ($\sharp (H \cap F) \leq \sharp (H \cap B)$).
+    \item \textbf{Affine Invarianz}
+\end{itemize}
+
+Die Tangentenbedingung und der Wertebereich sind für alle 3 dargestellten
+Kurven erfüllt, die Bedingung der Variationsreduktion ist bei der dritten Kurve
+jedoch verletzt. Also ist die dritte Kurve mit den dargestellten
+Kontrollpunkten keine Bézierkurve.
+
+Begründung: Legt man eine Hyperebene $H$ (Gerade) so, dass sie kurz über dem
+zweiten Kontrollpunkt und leicht unter dem zweiten Kontrollpunkt liegt, so
+schneidet $H$ das Kontrollpolygon genau 1~mal, aber 3~mal die Bézierkurve.
+
+\end{document}

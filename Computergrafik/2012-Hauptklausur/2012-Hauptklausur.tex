@@ -1,0 +1,309 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage[inline]{enumitem}
+\setlist{noitemsep}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[nameinlink,noabbrev,ngerman]{cleveref} % has to be after hyperref
+\usepackage{nicefrac}  % for \nicefrac{1}{3}
+\usepackage{csquotes}  % for \enquote{what you want to quote}
+\usepackage{booktabs}  % for \toprule, \midrule and \bottomrule
+\usepackage{minted} % needed for the inclusion of source code
+
+% for \begin{enumerate}[label=(\Alph*)], see http://tex.stackexchange.com/a/129960/5645
+\usepackage{enumitem}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+\usepackage{wasysym}  % For \CheckedBox
+\usepackage{microtype}
+
+\begin{document}
+\selectlanguage{ngerman}
+\title{2012 Hauptklausur (WS 2011/12)}
+
+\setcounter{section}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Aufgabe 1: Wahrnehmung und Farbräume}
+\subsection*{Teilaufgabe 1a}
+\textit{Eine Grafikkarte ist an ein Anzeigegerät mit einem Gamma-Wert von 2.0
+angeschlossen und muss eine entsprechende Gamma-Korrektur durchführen.
+Berechnen Sie den Intensitätswert, den die Grafikkarte an das Anzeigegerät
+senden muss, um eine Ausgabe mit der Hälfte der Maximalintensität zu erreichen.
+(Der Wertebereich der Koeffzienten reicht von 0 bis zur
+ Maximalintensität~1.0.)}
+
+Es gilt
+
+\[I_{\text{out}} = {I_{\text{in}}}^\gamma\]
+
+für $I_{\text{out}} = \nicefrac{1}{2}$ und $\gamma = 2$ muss also gelten:
+
+\[\frac{1}{2} = {I_{in}}^2 \Leftrightarrow I_{\text{in}} = \frac{1}{\sqrt{2}}\]
+
+
+\subsection*{Teilaufgabe 1b}
+\textit{Sie haben ein Bild im RGB-Farbraum gegeben und wollen den Helligkeitskontrast erhöhen. In welchen der in der Vorlesung vorgestellten Farbräume wandeln Sie es um,
+um diese Kontrasterhöhung möglichst einfach durchführen zu können? Welche Berechnung(en) führen Sie dazu auf den Koeffizienten dieses Farbraums aus?}
+
+HSV (oder HSI, HSL). Dann wird einfach der V-Wert (I-Wert, L-Wert) erhöht.
+
+\subsection*{Teilaufgabe 1c}
+\begin{tabular}{cp{8cm}llp{4cm}}\toprule
+\# & Aussage                                                                                                     & Wahr           & Falsch           & Begründung            \\\midrule
+ 1 & Um den Farbeindruck für einen Menschen eindeutig zu beschreiben, genügt ein Farbmodell mit 3 Koeffizienten. & \CheckedBox    & $\square$        & Graßmansche Gesetze   \\
+ 2 & Durch diese 3 Koeffizienten ist dann das Spektrum ebenso eindeutig festgelegt.                              & $\square$      & \CheckedBox      & Metamerie             \\
+ 3 & Der RGB-Einheitswürfel enthält alle sichtbaren Farben.                                                      & $\square$      & \CheckedBox      & Magenta / Purple-Line \\
+ 4 & Der RGB-Einheitswürfel enthält Farben, die sich im CIE XYZ-Farbmodell nicht darstellen lassen.              & $\square$      & \CheckedBox      & Es ist umgekehrt  \\\bottomrule
+\end{tabular}
+
+\section*{Aufgabe 2: Raytracing und prozedurale Modelle}
+\subsection*{Teilaufgabe 2a}
+\begin{enumerate}[label=(\arabic*)]
+    \item Schattenstrahl zu Lichtquelle verschießen um Verschattung zu testen
+    \item Grundfarbwert anhand eines Beleuchtungsmodells (z.B. Phong) bestimmen
+    \item Reflektionsstrahl verschießen und ermittelten Farbwert auf Farbwert
+          im Punkt addieren.
+    \item Transmissionsstrahl verschießen.
+\end{enumerate}
+
+\subsection*{Teilaufgabe 2b}
+\textit{Was ist der konzeptuelle Unterschied zwischen Raymarching und
+Raycasting bzw. Raytracing? Nennen Sie einen Anwendungsfall, bei dem Sie
+Raymarching verwenden würden, und begründen Sie, warum Sie für diesen Fall
+Raytracing können}
+
+Bei \textbf{Raymarching} wird durch jeden Pixel ein Strahl geschossen und mit
+einer bestimmten Größe \enquote{abmarschiert}. Im Gegensatz zu Raytracing
+werden keine Sekundärstrahlen verschossen.
+
+Raymarching wird zur Verarbeitung von Volumendaten (Nebel, Wolken, \dots)
+eingesetzt, wobei Raytracing und Raycasting für Oberflächen verwendet wird.
+
+\textbf{Anwendungsfall für Raymarching}: Hypertextures. Die Berechnung mittels
+Raytracing wäre zu aufwendig, da es sehr viele Sekundärstrahlen gäbe.
+
+TODO: Unterschied zwischen Raycasting und Raytracing?
+
+\subsection*{Teilaufgabe 2c}
+\begin{tabular}{cp{8cm}llp{4cm}}\toprule
+\# & Aussage                                                                                                                                                                                                       & Wahr & Falsch & Begründung \\\midrule
+1  & Prozedurale Modelle erlauben eine kompakte Beschreibung von Texturen oder Objekten, aber die Resultate sind oft nur schwer zu kontrollieren.                                                                  & \CheckedBox    & $\square$        & ~          \\
+2  & Eine ideale Noise-Funktion sollte weder bandbegrenzt sein noch räumliche Korrelationen aufweisen, um erkennbare Periodizitäten und monotone Strukturen zu vermeiden.                                          & $\square$      & \CheckedBox      & ~          \\
+3  & Um Turbulenz-Texturen zu erstellen, werden immer höhere Oktaven von Noise-Texturen aufsummiert und dabei immer stärker gewichtet, damit die Resultate so weit wie möglich gegen Weißes Rauschen konvergieren. & $\square$      & \CheckedBox      & ~          \\
+4  & Constructive Solid Geometry ist eine Technik zum Modellieren von Festkörpern, bei der Objekte durch boolesche Operatoren kombiniert werden.                                                                   & \CheckedBox    & $\square$        & ~          \\\bottomrule
+\end{tabular}
+
+\section*{Aufgabe 3: Transformationen}
+\subsection*{Teilaufgabe 3a}
+\textit{Um welchen Typ Transformation handelt es sich dabei?}
+
+TODO (Basiswechsel?)
+
+\textit{Nennen Sie die effizienteste Methode, die Inverse dieser Transformation zu finden.}
+
+Man kann leicht feststellen, dass $u \times v = u \times w = v \times w = 0$.
+Es handelt sich also um eine Orthogonalmatrix. Die inverse $M^{-1}$ einer
+Orthogonalmatrix $M$ ist gleich ihrer Transponierten $M^T$: $M^{-1} = M^T$.
+
+\subsection*{Teilaufgabe 3b}
+\textit{Nennen Sie zwei Gründe für die Verwendung hierarchischer Modellierung.}
+
+\begin{enumerate}[label=(\arabic*)]
+    \item Anordnung von objekten in hierarchischen Gruppen
+    \item Anwendung von Transformationen auf ganze Objektgruppen
+    \item Natürliche Beschreibung eines Objekts / einer Szene
+\end{enumerate}
+
+\textit{Welche Datenstruktur haben Sie in der Vorlesung kennengelernt, die dabei hilft,
+Transformationen beim Traversieren des Szenengraphen zu verwalten?}
+
+Matrixstack
+
+
+
+\subsection*{Teilaufgabe 3c}
+(Homogene 2D-Matrizen)
+
+\textit{Nennen Sie jeweils, um welche Transformation es sich handelt und wie deren Parameter sind.}
+
+\begin{enumerate}[label=(\Alph*)]
+    \item Rotation um $45^\circ$ gegen den Urzeigersinn.
+    \item Translation um 2.5 in Richtung der $y$-Achse.
+    \item Spiegelung an der $x$-Achse.
+    \item Scherung um~1 in Richtung der $x$-Achse.
+\end{enumerate}
+
+
+\section*{Aufgabe 4: Texturen}
+\subsection*{Teilaufgabe 4a}
+\textit{Was ist eine Environment-Map?}\\
+\textbf{tl;dr} Ein Bild der Umgebung als Textur.\\
+Eine Environment-Map ist eine Textur zur Darstellung reflektierender Objekte
+mit Spiegelung von Umgebung ohne geometrische Repräsentation.
+
+\textit{Wofür wird sie eingesetzt?}
+
+Durch eine Environment-Map kann die Reflektion/Beleuchtung eines Objekts
+bestimmt werden, ohne aufwendiges Ray-Tracing zu betreiben.
+
+\textit{Welche Annahmen trifft man dabei?}
+
+Die Umgebung ist weit genug entfernt, sodass die Position keine Rolle spielt.
+Es wird nur die Reflektionsrichtung verwendet.
+
+\subsection*{Teilaufgabe 4b}
+\textit{Welches Problem beim Texture-Mapping löst Mip-Mapping? Erklären Sie kurz die Idee!}
+
+Mip-Mapping ist eine Vorfilterung der Textur um Aliasing-Artefakten vorzubeugen.
+Aliasing tritt durch Unterabtastung des Bildsignals auf.
+
+Man erzeugt Mip-Maps durch Mittelung über jeweils $2 \times 2$
+Texel. Es werden solange neue Mip-Map-Stufen generiert, bis man eine Mip-Map
+erzeugt hat, die nur noch aus einem Texel besteht.
+
+\subsection*{Teilaufgabe 4c: Bilineare Interpolation}
+
+\begin{align}
+    c'  &= (1-s) \cdot c_{01} + s \cdot c_{11}\\
+    c'' &= (1-s) \cdot c_{00} + s \cdot c_{10}\\
+    c   &= (1-t) \cdot c'' + t \cdot c'
+\end{align}
+
+\section*{Aufgabe 5: Hierarchische Datenstrukturen}
+\subsection*{Teilaufgabe 5a}
+\textit{Nennen Sie vier Arten von Hüllkörpern (bounding volumes), die Sie in
+der Vorlesung kennengelernt haben, und sortieren Sie sie danach, wie eng sie
+den in der Darstellung gegebenen Zylinder umschließen können.}
+
+\begin{enumerate*}[label=(\Alph*)]
+    \item Slabs
+    \item OBB (Oriented Bounding Box)
+    \item AABB (Axis-Aligned Bounding Box)
+    \item Bounding Sphere
+\end{enumerate*}
+
+
+\subsection*{Teilaufgabe 5b}
+\textit{Für welche Datenstrukturen stimmt folgende Aussage? Begründen Sie.}
+
+\enquote{Der erste während der Traversierung gefundene Schnittpunkt ist
+zugleich der nächste Schnittpunkt zum Ursprung des Strahls.}
+
+\textbf{Octree}: Falsch. Da keine Reihenfolge festgelegt ist in der der Baum
+                 traversiert wird.
+
+\textbf{BVH}: Falsch.
+
+\textbf{kD-Baum}: Wahr. Die Traversierungsreihenfolge des Schnittalgorithmus
+                  ist so festgelegt, dass immer die naheste Ebene zuerst
+                  betrachtet wird.
+
+                  Die Traversierungsreihenfolge ist also von vorne nach hinten.
+
+\subsection*{Teilaufgabe 5c}
+\includegraphics*[width=\linewidth, keepaspectratio]{5c.png}
+
+\section*{Aufgabe 6: Projektive Transformationen und Clipping}
+\subsection*{Teilaufgabe 6a}
+\textit{Transformieren Sie die Vertizes $P_1$ , $P_2$
+in homogene Clip-Koordinaten, und geben Sie die homogenen Koordinaten der
+transformierten Punkte an.}
+
+\begin{align}
+      P_{1h} &= M_{proj} \begin{pmatrix}2\\6\\1\end{pmatrix} = \begin{pmatrix}2\\-2\\6\end{pmatrix}
+    & P_{2h} &= M_{proj} \begin{pmatrix}8\\4\\1\end{pmatrix} = \begin{pmatrix}8\\-8\\4\end{pmatrix}
+\end{align}
+
+\subsection*{Teilaufgabe 6b}
+\textit{Als nächstes müssen Sie die \enquote{window edge coordinates} der
+projizierten Punkte in Clip- Koordinaten berechnen. Welche Kanten müssen
+potentiell auf Schnitt mit der Strecke überprüft werden?}
+
+\begin{align}
+    WEC_{x=w}(P_1)  &= 4     & WEC_{x=w}(P_2)  &= -4\\
+    WEC_{x=-w}(P_1) &= 8     & WEC_{x=-w}(P_2) &= 12\\
+    WEC_{z=w}(P_1)  &= 8     & WEC_{z=w}(P_2)  &= 12\\
+    WEC_{z=-w}(P_1) &= 4     & WEC_{z=-w}(P_2) &= -4\\
+    WEC_{x=w}       &= w - x & WEC_{x=-w}      &= w + x
+\end{align}
+
+$\Rightarrow$ Untere rechte Kante überprüfen
+
+\subsection*{Teilaufgabe 6c}
+\textit{Wenden Sie nun $\alpha$-Clipping an. Geben Sie ebenfalls die Endpunkte
+$P_1$ und $P_2$ der Teilstrecke in der Sichtpyramide in normalisierten
+Device-Koordinaten an.}
+
+\begin{align}
+    a_{\text{min}} &= 0\;\;\; a_{\text{max}} = 1\\
+    a_1 &= \frac{WEC_{x=w}(P_1)}{WEC_{x=w}(P_1) - WEC_{x=w}(P_2)} = \frac{4}{4 - (-4)} = 0.5\\
+    \Rightarrow a_{\text{max}} &= \min(a_{\text{max}}, a_1) = 0.5 \text{ (weil Optcode } P_2 \text{ gesetzt)}\\
+    a_2 &= \frac{WEC_{z=-w}(P_1)}{WEC_{z=-w}(P_1) - WEC_{z=-w}(P_2)} = \frac{4}{4 - (-4)} = 0.5\\
+    \Rightarrow a_{\text{max}} &= \min(a_{\text{max}}, a_2) = 0.5 \text{ (weil Optcode } P_2 \text{ gesetzt)}
+\end{align}
+
+Neues Liniensegment:
+
+\begin{align}
+    (P_{1h} + a_{\text{min}} \cdot (P_{2h} - P_{1h})&,\;\;\; P_{1h} + a_{\text{max}} \cdot (P_{2h} - P_{1h}))\\
+  = ((2, -2, 6)&,\;\;\; (2, -2, 6) + 0.5 \cdot (6, -6, -2))\\
+  = ((2, -2, 6)&,\;\;\; (5, -5, 5))
+\end{align}
+
+\begin{align}
+    P_1' &= (\nicefrac{1}{3}, -\nicefrac{1}{3}) & P_2' &= (1, -1)
+\end{align}
+
+\clearpage
+\section*{Aufgabe 7: OpenGL und Rasterisierung}
+\subsection*{Teilaufgabe 7a}
+\includegraphics*[width=0.5\linewidth, keepaspectratio]{7a.png}
+
+\subsection*{Teilaufgabe 7b}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=7b.cpp]{cpp}{7b.cpp}
+
+\section*{Aufgabe 8: OpenGL-Shading-Language}
+\textit{Kommentar: Es ist möglich alle Parameter für computeLighting zum Fragment-Shader durchzureichen, m.E. aber nicht notwendig. Code ist angelehnt an die VL-Folien.}
+\subsection*{Teilaufgabe 8a: Vertex-Shader}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader8a.vert]{glsl}{shader8a.vert}
+
+\clearpage
+\subsection*{Teilaufgabe 8b}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader8b.frag]{glsl}{shader8b.frag}
+
+\clearpage
+\section*{Aufgabe 9: Bézierkurven und Béziersplines}
+\subsection*{Teilaufgabe 9a}
+\textit{Nennen Sie drei wichtige Eigenschaften der Bézierkurven, die Sie in der Vorlesung
+kennengelernt haben.}
+
+\begin{itemize}
+    \item \textbf{Tangentenbedingung}:
+          $c_0 c_1$ ist Tangential an die Bezierkurve am Anfang,
+          $c_2 c_3$ ist Tangential an die Bezierkurve am Ende.
+    \item \textbf{Wertebereich}: Bézierkurven liegen innerhalb der konvexen
+          Hülle, die durch die 4~Kontrollpunkte gebildet werden.
+    \item \textbf{Endpunktinterpolation}: Bézierkurven beginnen immer beim
+          ersten Kontrollpunkt und enden beim letzten Kontrollpunkt.
+    \item \textbf{Variationsredukion}: Eine Bézierkurve $F$ wackelt nicht stärker
+          als ihr Kontrollpolygon $B$ ($\sharp (H \cap F) \leq \sharp (H \cap B)$).
+    \item \textbf{Affine Invarianz}
+\end{itemize}
+
+\subsection*{Teilaufgabe 9b}
+\includegraphics*[width=\linewidth, keepaspectratio]{9b-bezier.png}
+
+\subsection*{Teilaufgabe 9c}
+Kubische Splines sind 2-mal stetig differenzierbar. Damit es immer noch ein
+kubischer Spline ist, müssen die Punkte $b_1, b_2, b_3, c_1, c_2$ angepasst
+werden.\\
+\textit{Kommentar: Die Kontrollpunkte ändern sich nicht, lediglich die beiden Abschnitte $b_0 - b_3$ und $c_0 - c_3$ des Splines ändern sich. Weitere Abschnitte der Kurve ändern sich aufgrund der Tangentenbedingung nicht.}
+
+
+\end{document}

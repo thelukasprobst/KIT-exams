@@ -1,0 +1,471 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage[inline]{enumitem}
+\setlist{noitemsep}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[nameinlink,noabbrev,ngerman]{cleveref} % has to be after hyperref
+\usepackage{nicefrac}
+\usepackage{csquotes}
+\usepackage{booktabs}  % for \toprule, \midrule and \bottomrule
+
+\usepackage{minted} % needed for the inclusion of source code
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{shapes.misc}
+\tikzset{cross/.style={cross out, draw=black, fill=none, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt}, cross/.default={2mm}}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+\usepackage{wasysym}  % For \CheckedBox
+\usepackage{microtype}
+
+\begin{document}
+\selectlanguage{ngerman}
+\title{2014 Nachklausur (WS 2013/14)}
+
+\setcounter{section}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Aufgabe 1: Das Phong-Beleuchtungsmodell}
+\subsection*{Teilaufgabe 1a}
+\begin{figure}[h]
+    \centering
+    \includegraphics*[width=0.8\linewidth, keepaspectratio]{1a.png}
+    \caption{Skizze zu Aufgabe 1}
+    \label{fig:1a}
+\end{figure}
+
+\subsection*{Teilaufgabe 1b}
+\textit{Geben Sie mit Hilfe der benannten Vektoren die Formel an, mit der die
+Farbe der Oberfläche im Punkt $P_1$ bestimmt werden kann! Unterstreichen Sie
+dabei die Vektoren, die normiert sein müssen!}
+
+\[I = \sum_{i=1}^2 \textcolor{gray}{\overbrace{k_a \cdot I_{L_i}}^{=0}} + k_d \cdot I_{L_i} \cdot (\underbrace{N \cdot L_{i}}_{\cos \Theta({L_i})}) + \textcolor{gray}{\overbrace{k_s \cdot I_{L_i} \cdot (R_{L_i} \cdot V)^n}^{=0}}\]
+
+Normalisierte Vektoren:
+
+\begin{itemize}
+    \item TODO: Welche Vektoren müssen normalisiert sein? Nicht alle?
+\end{itemize}
+
+
+\subsection*{Teilaufgabe 1c}
+\textit{Welche der beiden Lichtquellen trägt mehr zur Intensität der Oberfläche
+an $P_1$ bei?}
+
+$L_1$ trägt mehr zur Intensität $I$ von $P_1$ bei, weil $\cos \Theta(L_1)$ größer
+ist als  $\cos \Theta(L_2)$.
+
+\subsection*{Teilaufgabe 1d}
+\textit{Wie verändert sich die Intensität von $P_1$, wenn er statt von $A_1$
+nun von $A_2$ betrachtet wird?}
+
+$I$ ändert sich nicht, weil keiner der Terme die zu $I$ in diesem Fall beitragen
+vom $A_1$ bzw. $A_2$ abhängig ist.
+
+\subsection*{Teilaufgabe 1e}
+\textit{Es soll nun die Farbe des Punktes $P_2$ bestimmt werden. Dieser
+befindet sich auf der glänzenden Oberfläche. Zeichnen Sie für $P_2$ die
+Vektoren ein, die zur Bestimmung seiner Farbe benötigt werden! Beschränken Sie
+sich dabei auf die Vektoren für $L_1$.}
+
+TODO
+
+\subsection*{Teilaufgabe 1f}
+\textit{Wie verändert sich die Intensität von $P_2$, wenn er statt von $A_1$
+von $A_2$ betrachtet wird? Begründen Sie Ihre Antwort kurz!}
+
+$I$ wird schwächer, da die spekulare Reflexion mit zunehmendem Winkel zwischen $\mathbf{v}$ und $\mathbf{r}_L$ abfällt.
+
+\section*{Aufgabe 2: Raytracing}
+\subsection*{Teilaufgabe 2a}
+\begin{itemize}
+    \item Anstelle einen Punkt für einen Pixel abzutasten, tastet man
+          $k^2$ mal in äquidistanten Intervallen ab.
+    \item Aliasing wird dadurch verringert.
+\end{itemize}
+
+\subsection*{Teilaufgabe 2b}
+\begin{itemize}
+    \item Maximale Rekursionstiefe erreicht
+    \item Rekursion bis der Beitrag zur Farbe vernachlässigbar wird
+\end{itemize}
+
+\subsection*{Teilaufgabe 2c}
+
+\textit{Was ist der Unterschied zwischen Distributed Raytracing und Whitted-Style Raytracing?}
+
+Beim Distributed Raytracing wird nicht nur ein Schattenstrahl verschickt, sondern
+viele. Damit sollen zu perfekte Spiegelungen/""Transmissionen vermieden werden.
+
+\textit{Welchen Lichttransport kann man durch Distributed Raytracing berechnen, den
+Whitted-Style Raytracing nicht erfassen kann?}
+
+Siehe Kapitel~2 (Raytracing), Folie 107ff:
+
+\begin{itemize}
+    \item Kaustiken
+    \item Weiche Schatten
+    \item Tiefenunschärfe
+    \item Bewegungsunschärfe
+\end{itemize}
+
+\subsection*{Teilaufgabe 2d}
+\textit{Nennen Sie kurz und stichpunktartig die zwei Schritte, die zur Berechnung von Vertex-
+Normalen bei einem Dreiecksnetz notwendig sind! Gehen Sie dabei davon aus, dass nur
+die Vertex-Positionen und die Topologie des Netzes gegeben sind!}
+
+\begin{itemize}
+	\item Kreuzprodukt über $(P_2-P_1)$ und $(P_3 - P_1)$ für drei Punkte eines Dreiecks
+	\item Normalisieren
+\end{itemize}
+
+\clearpage
+\section*{Aufgabe 3: Farben und Farbwahrnehmung}
+\subsection*{Teilaufgabe 3a}
+\subsubsection*{Teilaufgabe 3a (I)}
+\textit{Wie berechnet man die Sensorantwort $a$ für ein Spektrum $S(\lambda)$?}
+\[a(S(\lambda)) = \int_\lambda E(\lambda) \cdot S(\lambda) \mathrm{d} \lambda \]
+
+\subsubsection*{Teilaufgabe 3a (II)}
+Unter einem \textit{Metamerismus} versteht man das Phänomen, das
+unterschiedliche Spektren den selben Farbeindruck vermitteln können. Es muss
+also
+\[a_1 = a_2\]
+gelten, damit $S_1(\lambda)$ und $S_2(\lambda)$ bzgl. der gegebenen Kamera
+Metamere sind.
+
+\subsection*{Teilaufgabe 3b}
+\begin{enumerate}
+    \item Das HSV-Farbmodell trennt Farbton von Helligkeit.
+    \item[$\Rightarrow$] Richtig (\textit{H}ue (Farbton), \textit{S}aturation (Sättigung),
+                         \textit{V}alue (Hellwert)).
+    \item Der Farbeindruck einer additiv gemischten Farbe hängt nicht vom Farbeindruck der Ausgangsfarben ab.
+    \item[$\Rightarrow$] Falsch. Vgl. Superpositionsprinzip, Kapitel 1, Teil 2, Folie 6.
+    \item Farbige Flächen werden unabhängig von ihrer Umgebung vom menschlichen Auge immer gleich wahrgenommen.
+    \item[$\Rightarrow$] Falsch. (z.B. durch Machsche Bandeffekte)
+    \item Der Machsche Bandeffekt ist vor allem bei Phong-Shading ein Problem.
+    \item[$\Rightarrow$] Falsch. Machsche Bänder entstehen an den Grenzen von Flächen, die jeweils keine Farbgraduierung haben. Beim Phong-Shading gibt es wegen der interpolierten Normalen keine solchen Flächen. Der Effekt tritt z.\,B. beim Flat-Shading auf, ist also vor allem dort problematisch. 
+\end{enumerate}
+
+\clearpage
+\section*{Aufgabe 4: Bézier-Kurven}
+\subsection*{Teilaufgabe 4a}
+\textit{Gegeben sei die Bézier-Kurve $\mathbf{b}(u) = \sum_{i=0}^3 \mathbf{b}_i B_i^3(u)$ mit den Kontrollpunkten $\mathbf{b}_i$, wobei
+$u \in [0, 1]$ und $B_i^3$ das $i$-te Bernstein-Polynom vom Grad 3 ist.}
+
+\subsubsection*{Teilaufgabe 4a (I)}
+\textit{Werten Sie die Bézier-Kurve zeichnerisch mit dem de-Casteljau-Algorithmus
+an der Stelle $u = \frac{1}{3}$ aus! Markieren Sie den Punkt $\mathbf{b}\left(\frac{1}{3}\right)$!}
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[every circle/.style={radius=2pt}]
+		\draw   (0,0)   coordinate[label=below right:$\mathbf{b}_0$ {=} $\mathbf{c}_0$] (b0) circle;
+		\draw (1.2,5.1) coordinate[label=above:$\mathbf{b}_1$] (b1) circle;
+		\draw (7.2,6.3) coordinate[label=above:$\mathbf{b}_2$] (b2) circle;
+		\draw (12 ,0.5) coordinate[label=below right:$\mathbf{b}_3$ {=} $\mathbf{d}_3$] (b3) circle;
+
+		\begin{scope}[red]
+			\draw[green] (b0) -- (b1) -- (b2) -- (b3);
+			\begin{scope}[fill=green]
+				\filldraw ($(b0)!1/3!(b1)$) coordinate[label=below right:$\mathbf{c}_1$] (b00) circle;
+				\fill ($(b1)!1/3!(b2)$) coordinate (b01) circle;
+				\filldraw ($(b2)!1/3!(b3)$) coordinate[label=below left: $\mathbf{d}_2$] (b02) circle;
+			\end{scope}
+
+			\draw[blue] (b00) -- (b01) -- (b02);
+			\begin{scope}[fill=blue]
+				\filldraw ($(b00)!1/3!(b01)$) coordinate[label=below right:$\mathbf{c}_2$] (b10) circle;
+				\filldraw ($(b01)!1/3!(b02)$) coordinate[label=below      :$\mathbf{d}_1$] (b11) circle;
+			\end{scope}
+
+			\draw (b10) -- (b11);
+			\filldraw ($(b10)!1/3!(b11)$) coordinate[label=below right:$\mathbf{b}\left(\frac{1}{3}\right)$ {=} $\mathbf{c}_3$ {=} $\mathbf{d}_0$] circle;
+		\end{scope}
+	\end{tikzpicture}
+	\caption{Skizze zu Aufgabe 4a und 4b}
+	\label{fig:4ab}
+\end{figure}
+
+\subsubsection*{Teilaufgabe 4a (II)}
+vgl. \cref{fig:4ab}
+
+\subsection*{Teilaufgabe 4b}
+Siehe Nachklausur 2015, Aufgabe 11b für eine detaillierte Erklärung.
+
+\begin{enumerate}
+    \item Nein, da die Kontrollpunkte auf den Ecken eines Rechtecks liegen,
+          aber die Kurve nicht symmetrisch ist.
+    \item Nein, da die Kurve nicht in der konvexen Hülle der Kontrollpunkte
+          liegt.
+    \item Ja
+    \item Nein, da die Kurve nicht tangential an $b_0 b_1$ ist.
+\end{enumerate}
+
+\section*{Aufgabe 5: Transformationen}
+% Gesucht ist eine homogene Matrix $M \in \mathbb{R}^{4 \times 4}$, für die gilt:
+
+% \begin{align}
+%     M \cdot \begin{pmatrix}-2\\1\\-1\\1\end{pmatrix} &= \begin{pmatrix}0\\0\\0\\c\end{pmatrix}\\
+
+% \end{align}
+
+Der Basiswechsel ist eine Verschiebung um $\begin{pmatrix}2\\-1\\1\end{pmatrix}$
+und dann eine Rotation um $180^\circ$ um die $x$-Achse. Daher:
+
+\begin{align}
+    M &= \overbrace{\begin{pmatrix}1 & 0 & 0 & 0\\
+                        0 & \cos 180^\circ & -\sin 180^\circ & 0\\
+                        0 & \sin 180^\circ & \cos 180^\circ  & 0\\
+                        0 &              0 &              0  & 1\end{pmatrix}}^{\text{Rotation}}
+         \cdot
+         \overbrace{
+         \begin{pmatrix}1 & 0 & 0 & 2\\
+                        0 & 1 & 0 & -1\\
+                        0 & 0 & 1 & 1\\
+                        0 & 0 & 0 & 1\end{pmatrix}}^{\text{Translation}}\\
+    M &= \begin{pmatrix}1 &  0 &  0 & 0\\
+                        0 & -1 &  0 & 0\\
+                        0 &  0 & -1 & 0\\
+                        0 &  0 &  0 & 1\end{pmatrix}
+         \cdot
+         \begin{pmatrix}1 & 0 & 0 & 2\\
+                        0 & 1 & 0 & -1\\
+                        0 & 0 & 1 & 1\\
+                        0 & 0 & 0 & 1\end{pmatrix}\\
+    M &= \begin{pmatrix}1 &  0 &  0 & 2\\
+                        0 & -1 &  0 & 1\\
+                        0 &  0 & -1 & -1\\
+                        0 &  0 &  0 & 1\end{pmatrix}
+\end{align}
+
+\section*{Aufgabe 6: Texturierung}
+\subsection*{Teilaufgabe 6a}
+\begin{align}
+    \lambda_A &= \frac{A_\Delta(P,B,C)}{A_\Delta(A,B,C)} = \frac{3}{6}
+    &\lambda_B &= \frac{A_\Delta(P,A,C)}{A_\Delta(A,B,C)} = \frac{1}{6}
+    &\lambda_C &= \frac{A_\Delta(P,A,B)}{A_\Delta(A,B,C)} = \frac{2}{6}
+\end{align}
+
+\begin{equation}
+\begin{pmatrix}u\\v\end{pmatrix} = \lambda_A \cdot \begin{pmatrix}4\\0\end{pmatrix} + \lambda_B \cdot \begin{pmatrix}12\\6\end{pmatrix} + \lambda_C \cdot \begin{pmatrix}0\\12\end{pmatrix} = \begin{pmatrix}4\\5\end{pmatrix}
+\end{equation}
+
+
+\subsection*{Teilaufgabe 6b}
+Siehe Kapitel~4, Folie~56
+
+\textit{Gegeben ist eine Textur mit $8\times8$ Texeln und 4 Mipmap-Stufen sowie ein
+Pixel-Footprint und dessen Mittelpunkt (siehe Abbildung). Kreuzen Sie in der
+Mipmap-Pyramide die Texel an, die für eine trilineare Interpolation zur
+Bestimmung des Farbwertes verwendet werden! Begründen Sie kurz Ihre Wahl der
+Mipmap-Stufen!}
+
+\begin{tikzpicture}[step=0.5,node font=\small]
+	\draw (0,4) node[anchor=south west] {Stufe~0:};
+	\draw (0,0) grid (4,4);
+	\filldraw[fill=gray,semitransparent] (0.35,0.65) -- (1.85,0.35) -- (1.85,1.85) -- (0.2,1.7) -- cycle;
+	
+	\begin{scope}[shift={(5,2)}]
+	\draw (0,2) node[anchor=south west] {Stufe~1:};
+	\draw (0,0) grid (2,2);
+	\draw node[cross] at (0.25,0.25) {}
+	      node[cross] at (0.25,0.75) {}
+	      node[cross] at (0.75,0.25) {}
+	      node[cross] at (0.75,0.75) {};
+	\end{scope}
+	
+	\begin{scope}[shift={(8,3)}]
+	\draw (0,1) node[anchor=south west] {Stufe~2:};
+	\draw (0,0) grid (1,1);
+	\draw node[cross] at (0.25,0.25) {}
+	      node[cross] at (0.25,0.75) {}
+	      node[cross] at (0.75,0.25) {}
+	      node[cross] at (0.75,0.75) {};
+	\end{scope}
+	
+	\begin{scope}[shift={(10,3.5)}]
+	\draw (0,0.5) node[anchor=south west] {Stufe~3:};
+	\draw (0,0) grid (0.5,0.5);
+	\end{scope}
+\end{tikzpicture}
+
+Die Größe des Footprints liegt zwischen der Texelgröße der Stufen 1 und 2.
+
+\subsection*{Teilaufgabe 6c}
+\textit{Welchen Vorteil haben Summed-Area-Tables gegenüber Mipmaps bei der Texturfilterung?}
+
+Die Textur kann mit einem beliebigen rechteckigen Filter in konstanter Zeit gefiltert werden (Kapitel~4, Folie~66).
+
+\subsection*{Teilaufgabe 6d}
+Das Interpolationsschema heißt \textit{Bilineare Interpolation} und funktioniert wie folgt:
+
+\begin{align}
+    t_{12} &= (1-a) \cdot t_1 + a \cdot t_2\\
+    t_{34} &= (1-a) \cdot t_3 + a \cdot t_4\\
+    t      &= (1-b) \cdot t_{34} + b \cdot t_{12}
+\end{align}
+
+\section*{Aufgabe 7: Cube-Maps und Environment-Mapping}
+\subsection*{Teilaufgabe 7a}
+\subsubsection*{Teilaufgabe 7a (I)}
+\textit{Wie wird die Cube-Map-Seite bestimmt, auf die zugegriffen wird? Welche ist es für $\mathbf{r}$?}
+Es wird die betragsmäßig größte Komponente gewählt. Diese bestimmt ob es
+oben/unten oder links/rechts oder vorne/hinten wird. Das Vorzeichen bestimmt
+dann per Konvention die konkrete Fläche.
+
+Im vorliegenden Fall ist $|r_z|$ am größten, also ist es Fläche~1.
+
+\subsubsection*{Teilaufgabe 7a (II)}
+\textit{Berechnen Sie die Texturkoordinaten des Zugriffs auf der für $\mathbf{r}$ ausgewählten Cube-Map-Seite!}
+
+\begin{align}
+    s &= \frac{1}{2} + \frac{r_x}{2 \cdot r_z} = \frac{1}{4}\\
+    t &= \frac{1}{2} + \frac{r_y}{2 \cdot r_z} = \frac{3}{4}
+\end{align}
+
+\subsubsection*{Teilaufgabe 7a (III)}
+Vorteile von Cube-Maps gegenüber Sphere-Maps (\href{https://en.wikipedia.org/wiki/Cube_mapping}{Quelle}):
+\begin{itemize}
+    \item Keine Bildverzerrung
+    \item Unabhängigkeit vom Viewpoint $P$
+    \item Schneller Berechenbar
+    \item[$\Rightarrow$] Besser für Echtzeit-Rendering geeignet.
+\end{itemize}
+
+
+\subsection*{Teilaufgabe 7b}
+\subsubsection*{Teilaufgabe 7b (I)}
+\textit{Was wird in einer Environment-Map gespeichert?}
+
+Ein Bild der Umgebung in einer Textur.
+
+\subsubsection*{Teilaufgabe 7b (II)}
+\textit{Nennen Sie ein Anwendungsbeispiel für Environment-Maps!}\\
+Terminator (Reflektion auf dem Terminator im Film, vgl. Kapitel~4, Folie~97)
+
+\subsubsection*{Teilaufgabe 7b (III)}
+\textit{Welche grundlegende Annahme wird bei Environment-Mapping gemacht?}\\
+Umgebung ist weit entfernt, nur die Richtung $\mathbf{r}$ wird verwendet, der Ausgangspunkt $P$ wird ignoriert.
+
+\subsubsection*{Teilaufgabe 7b (IV)}
+\textit{Was bzw. welcher Effekt kann mit vorgefilterten Environment-Maps nicht korrekt dargestellt werden?}
+
+Selbstverschattung
+
+
+\section*{Aufgabe 8: Hierarchische Datenstrukturen}
+\subsection*{Teilaufgabe 8a}
+
+Reihenfolge der Schnittests:
+
+A B 14 15 C 5 6 11
+
+\subsection*{Teilaufgabe 8b}
+\begin{enumerate}
+    \item räumliches Mittel (Spatial Median)
+    \item[$\rightarrow$] Nein, da $B$ nicht in der Mitte liegt
+    \item Objektmittel (Object Median)
+    \item[$\rightarrow$] Nein, da $B$ genau 8~Objekte auf der einen Seite und
+                         nur 2~Objekte auf der anderen Seite hat.
+    \item Kostenfunktion (Surface Area Heuristic)
+    \item[$\rightarrow$] Ja.
+\end{enumerate}
+
+\subsection*{Teilaufgabe 8c}
+\textit{Nennen Sie jeweils eine Stärke und eine Schwäche der Aufteilung mittels Kostenfunktion (Surface Area Heuristic)!}
+
+\begin{itemize}
+    \item[Vorteil] Gut konstruierte kD-Bäume können deutlich schneller sein als schlecht konstruierte
+    \item[Nachteil] Konstruktion aufwendig
+\end{itemize}
+
+
+\subsection*{Teilaufgabe 8d}
+\begin{tabular}{p{4cm}p{2.2cm}p{2.2cm}p{2.2cm}p{2.2cm}}\toprule
+Aussage                                                                 & BVH             & Octree               & kD-Baum               & Gitter               \\\midrule
+Datenstruktur wird an Geometrie angepasst                               & Ja (Hüllkörper) & Ja (Rekursionstiefe) & Ja (wo Ebenen liegen) & Nein \\
+Raum wird immer achsen\-parallel unterteilt                             & Nein (nur mit AABBs)            & Ja                   & Ja                    & Ja                   \\
+Datenstruktur ist Binär\-baum\footnotemark                              & Nein            & Nein                 & Ja                    & Nein                 \\
+Speicherplatz der Daten\-struktur ist abhängig von der Anzahl der Primitive & Ja            & Ja                   & Ja                    & (Ja) (je nachdem wie gespeichert wird)                  \\
+Bei der Konstruktion kann die SAH sinnvoll eingesetzt werden            & Ja\footnotemark & Nein                 & Ja                    & Nein                 \\\bottomrule
+\end{tabular}
+\footnotetext{Üblicherweise ist ein BVH ein Binärbaum, muss aber nicht so sein.}
+\footnotetext{Foliensatz 5 Folie 98}
+
+\section*{Aufgabe 9: Rasterisierung und OpenGL}
+\begin{table}[H]
+    \begin{tabular}{cp{12cm}ll}
+    \toprule
+    \# & \textbf{Aussage} & \textbf{Wahr} & \textbf{Falsch} \\\midrule
+    1  & Die Präzision des Tiefenpuffers wird verringert, wenn man die Distanz zwischen Near-Plane und Far-Plane vergrößert.
+       & \CheckedBox & \Square     \\
+    2  & Die OpenGL-Pipeline nutzt den Vertex-Cache beim Zeichnen ohne Index-Puffer.
+       & \Square     & \CheckedBox \\
+    3  & OpenGL-Puffer vom Typ \texttt{GL\_ELEMENT\_ARRAY\_BUFFER} werden für das Rendering mit der Shared-Vertex-Repräsentation verwendet.
+       & \CheckedBox & \Square     \\
+    4  & Ein Alpha-Test kann im Fragment-Shader mit dem Befehl \texttt{discard} implementiert werden.
+       & \CheckedBox & \Square     \\
+    5  & Die OpenGL-Funktion \texttt{glBlendFunc(GL\_SRC\_ALPHA, GL\_ONE\_MINUS\_SRC\_ALPHA)} kann verwendet werden, um additives Blending zu implementieren.
+       & \Square     & \CheckedBox \\
+    6  & Shadow-Mapping benötigt den Stencil-Puffer.
+       & \Square     & \CheckedBox \\
+    7  & Für die Transformation einer Normalen im Vertex-Shader kann immer dieselbe Matrix wie zur Transformation der entsprechenden Vertizes verwendet werden.
+       & \Square     & \CheckedBox \\
+    8  & Beim Gouraud-Shading werden die im Vertex-Shader berechneten Farben pro Fragment linear interpoliert.
+       & \CheckedBox & \Square     \\\bottomrule
+    \end{tabular}
+\end{table}
+
+\section*{Aufgabe 10: Tiefenpuffer und Transparenz}
+\subsection*{Teilaufgabe 10a}
+\textit{In welcher Reihenfolge müssen die drei Funktionen aufgerufen werden, um
+eine korrekte Darstellung des Hauses zu erhalten?}
+
+\begin{enumerate}
+    \item \texttt{LöscheTiefenPuffer} (1)
+    \item \texttt{ZeichneWände} (3)
+    \item \texttt{ZeichneFenster} (2)
+\end{enumerate}
+
+\subsection*{Teilaufgabe 10b}
+
+\begin{table}[H]
+    \begin{tabular}{llp{2cm}p{2cm}p{5cm}}
+    \toprule
+    Sortierung              & keine       & vorne nach hinten & hinten nach vorne & Begründung \\\midrule
+    \texttt{ZeichneWände}   & \CheckedBox & \Square           & \Square           & Tiefentest sorgt für korrekte Verdeckung \\
+    \texttt{ZeichneFenster} & \Square     & \Square           & \CheckedBox       & Blending ist i.\,A. nicht kommutativ \\\bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection*{Teilaufgabe 10c}
+\begin{table}[H]
+    \begin{tabular}{lllllll}\toprule
+    Sortierung              & Tiefentest  & \texttt{EQUAL} & \texttt{LESS} & \texttt{GREATER} & Tiefe schreiben & Blending  \\\midrule
+    \texttt{ZeichneWände}   & \CheckedBox & \Square        & \CheckedBox   & \Square          & \CheckedBox     & \Square    \\
+    \texttt{ZeichneFenster} & \CheckedBox & \Square        & \CheckedBox   & \Square          & \Square         & \CheckedBox \\\bottomrule
+    \end{tabular}
+\end{table}
+
+\clearpage
+\section*{Aufgabe 11: Phong-Shading und Phong-Beleuchtungsmodell}
+\subsection*{Teilaufgabe 11a}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader.vert]{glsl}{shader.vert}
+
+\clearpage
+\subsection*{Teilaufgabe 11b}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader.frag]{glsl}{shader.frag}
+
+\clearpage
+\section*{Aufgabe 12: Deformation mit Skelettsystemen}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=skelett.vert]{glsl}{skelett.vert}
+
+\end{document}

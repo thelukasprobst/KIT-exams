@@ -1,0 +1,328 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage[inline]{enumitem}
+\setlist{noitemsep}
+\usepackage[binary-units=true]{siunitx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[nameinlink,noabbrev,ngerman]{cleveref} % has to be after hyperref
+\usepackage{nicefrac}  % for \nicefrac{1}{3}
+\usepackage{csquotes}  % for \enquote{what you want to quote}
+\usepackage{booktabs}  % for \toprule, \midrule and \bottomrule
+\usepackage{minted} % needed for the inclusion of source code
+
+% for \begin{enumerate}[label=(\Alph*)], see http://tex.stackexchange.com/a/129960/5645
+\usepackage{enumitem}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+\usepackage{wasysym}  % For \CheckedBox
+\usepackage{microtype}
+
+\begin{document}
+\selectlanguage{ngerman}
+\title{2013 Hauptklausur (WS 2012/13)}
+
+\setcounter{section}{1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Aufgabe 1: Raytracing}
+\subsection*{Teilaufgabe 1a}
+\textit{Raytracing nach Whitted, wie Sie es in der Vorlesung kennengelernt
+haben, folgt den Gesetzen der geometrischen Optik. Ergänzen Sie die folgende
+Liste um die 3 weiteren Strahltypen, die bei diesem Raytracing-Verfahren
+vorkommen!}
+
+\begin{enumerate*}[label=(\arabic*)]
+    \item Primärstrahlen
+    \item Reflektionsstrahlen (rekursiv)
+    \item Transmissionsstrahlen (rekursiv)
+    \item Schattenstrahlen
+\end{enumerate*}
+
+\subsection*{Teilaufgabe 1b}
+\textit{Die folgenden Skizzen zeigen zwei Lichtstrahlen mit unterschiedlichem
+Einfallswinkel die an einer spekularen Glasoberfläche reflektiert werden (der
+Vektor N ist die Oberflächennormale).}
+
+In Bild 2, da dort der Winkel des Strahls auf die Oberfläche flacher ist.
+
+\subsection*{Teilaufgabe 1c}
+\textit{Wie nennt man das physikalische Gesetz oder Prinzip, welches den
+Zusammenhang zwischen Einfallswinkel und Reflektivität beschreibt?}
+
+Die \textbf{Fresnelsche Formeln} beschreiben die Beziehung zwischen
+Transmission und Reflexion in Abhängigkeit des Winkels.
+
+\clearpage
+\section*{Aufgabe 2: Beleuchtung, Licht und Wahrnehmung}
+\subsection*{Teilaufgabe 2a}
+\textit{Ergänzen Sie die Skizze und zeichnen Sie die 4~Vektoren ein, die im
+Phong-Beleuchtungsmodell für die Beleuchtungsberechnung benötigt werden!
+Verwenden Sie für die Skizze die Betrachterposition $B_1$ und den
+Oberflächenpunkt $x_1$}
+
+\includegraphics*[width=0.8\linewidth, keepaspectratio]{2a.png}
+
+Die 4 Vektoren sind:
+
+\begin{itemize}
+    \item View-Vektor $V$
+    \item Normale $N$,
+    \item Licht-Vektor $L$ und
+    \item Reflektionsvektor $R_L$
+\end{itemize}
+
+\[I = \underbrace{k_a \cdot I_L}_{\text{ambient}} + \underbrace{k_d \cdot I_L \cdot (N \cdot L)}_{\text{diffus}} + \underbrace{k_s \cdot I_L (R_L \cdot V)^n}_{\text{spekular}}\]
+
+\subsection*{Teilaufgabe 2b}
+\textit{Der Wert welcher Komponente(n) des Phong-Beleuchtungsmodells verändert
+bzw. verändern sich, wenn in der obigen Situation\dots}
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textit{\dots der Punkt $x_2$ statt $x_1$ betrachtet wird?}\\
+          $L, R_L, V$: Spekular und diffus
+    \item \textit{\dots die Szene aus der Position $B_2$ statt $B_1$ betrachtet wird?}\\
+          $V$: Spekular (Glanzlichter sind abhängig vom Winkel zwischen $V$ und $R_L$)
+\end{enumerate}
+
+\subsection*{Teilaufgabe 2c}
+\textit{In welcher Komponente taucht der sogenannte Phong-Exponent auf und
+welchen Einfluss hat er auf die Erscheinung einer Oberfläche? Wie ändert sich
+das Aussehen, wenn der Phong-Exponent größer gewählt wird?}
+
+Spekulare Komponente
+
+Ein großes $n$ führt dazu, dass \textbf{Glanzlichter} kleiner, aber intensiver
+werden. Die reflektion wird \enquote{perfekter}.
+
+\subsection*{Teilaufgabe 2d}
+\begin{tabular}{cp{12cm}cc}\toprule
+\# & Aussage                                                                                                                                      & Wahr & Falsch \\\midrule
+1  & Zu drei gewählten Primärfarben gibt es immer Spektralfarben, die durch die Kombination dieser drei Farben nicht realisierbar sind.           & \CheckedBox & \Square     \\
+2  & Menschen können geringe Helligkeitsunterschiede im Bereich niedriger Lichtintensität besser wahrnehmen als im Bereich hoher Lichtintensität. & \CheckedBox & \Square     \\
+3  & Es gibt keinen linearen Zusammenhang zwischem dem CIE-XYZ- und dem RGB-Modell.                                                               & \Square     & \CheckedBox \\
+4  & Gammakorrektur ist nur bei Röhrenmonitoren notwendig.                                                                                        & \Square     & \CheckedBox \\\bottomrule
+\end{tabular}
+
+
+\section*{Aufgabe 3: Transformationen}
+\subsection*{Teilaufgabe 3a}
+\textit{Gegeben sind Vektoren in homogenen Koordinaten. Kreuzen Sie jeweils an,
+ob es sich um einen Punkt oder eine Richtung handelt. Geben Sie außerdem die
+dazugehörigen kartesischen Koordinaten an.}
+
+Ein Punkt hat als letzte Komponente einen Wert $\neq 0$, eine Richtung hat dort
+$= 0$.
+
+\begin{tabular}{lccl}
+Vektor                                  & Punkt       & Richtung    & Kartesische Koordinaten \\
+$\begin{pmatrix}1,2,3,1\end{pmatrix}$   & \CheckedBox & \Square     & $(1,2,3)$               \\
+$\begin{pmatrix}1,2,3,0.1\end{pmatrix}$ & \CheckedBox & \Square     & $(10,20,30)$            \\
+$\begin{pmatrix}1,2,3,0\end{pmatrix}$   & \Square     & \CheckedBox & $(1,2,3)$               \\
+\end{tabular}
+
+\clearpage
+\subsection*{Teilaufgabe 3b}
+Korrekt sind:
+\begin{enumerate}
+    \item dreht die y-Achse in Richtung z-Achse
+    \item Scherung um Faktor a
+    \item ist teilverhältnistreu; erhält die Parallelität von Linien
+\end{enumerate}
+
+\section*{Aufgabe 4: Texturen und Texture-Mapping}
+\subsection*{Teilaufgabe 4a}
+\textit{Was versteht man unter Mip-Mapping? Welches Problem beim Texture Mapping soll
+damit gelöst werden und wann tritt dieses Problem auf? Wie erzeugt man Mip-Maps?}
+
+Mip-Mapping ist eine Vorverarbeitung der Textur, um das \textbf{Aliasing}-Problem
+bei \textbf{Minification} zu behandeln.
+
+Es werden kleiner skalierte, vorverarbeitete Versionen der Textur erstellt
+(Stufe $i$: um Faktor $2^i$ pro Achse kleiner).
+
+\subsection*{Teilaufgabe 4b}
+\textit{Was versteht man unter einer Environment Map? Nennen Sie eine Anwendung
+von Environment Mapping. Wie wird auf die Environment Map zugegriffen und
+welche vereinfachende Annahme wird dabei gemacht?}
+
+\underline{Was:} Eine Environment-Map ist eine Textur zur Darstellung der Umgebung.
+
+\underline{Anwendung:} Durch eine Environment-Map kann die
+Reflektion/Beleuchtung eines Objekts bestimmt werden, ohne aufwendiges
+Ray-Tracing zu betreiben.
+
+Konkret: Spiegelungen auf \enquote{flüssigem} Terminator (vgl. Folien)
+
+\underline{Annahme:} Die Umgebung ist weit genug entfernt, sodass die Position
+keine Rolle spielt. Es wird nur die Blickrichtung verwendet. Man bestimmt für
+Cube-Maps also die Richtung (die Fläche des Würfels) und greift nur
+entsprechend dieser auf die Textur der betreffenden Würfelfläche zu.
+
+\section*{Aufgabe 5: Räumliche Datenstrukturen}
+\subsection*{Teilaufgabe 5a}
+\begin{tabular}{cp{8cm}llll}\toprule
+\#& Aussage                                                                                                                                                                                                & BVH     & Octree & kD-Baum & Gitter \\\midrule
+1 & Die Struktur eignet sich gut in Fällen, in denen Primitive gehäuft auftreten und große Leerräume zwischen den Häufungen existieren. 
+& \CheckedBox & \CheckedBox & \Square     & \Square     \\
+2 & In einer Hierarchieebene können sich die Zellen der Struktur überlappen.
+& \CheckedBox & \Square     & \Square     & \Square     \\
+3 & Gehen Sie nun davon aus, dass Primitive nicht unterteilt werden und kein Mailboxing verwendet wird. Dann wird jedes Primitiv in jedem Fall höchstens einmal auf einen Schnitt mit dem Strahl getestet.
+& \CheckedBox & \Square     & \Square     & \Square     \\\bottomrule
+\end{tabular}
+
+\subsection*{Teilaufgabe 5b}
+
+\begin{itemize}
+    \item Am wenigsten aufwendig (1): Gitter
+    \item (2): kd-Baum mit Objekt Median
+    \item (3): kd-Baum mit Surface Area Heuristic
+\end{itemize}
+
+\section*{Aufgabe 6: Prozedurale Modellierung}
+\subsection*{Teilaufgabe 6a}
+\textit{Nennen Sie drei Vorteile (Stichpunkte) von prozeduralen Texturen!}
+
+\begin{enumerate}[label=(\arabic*)]
+    \item Geringerer Speicheraufwand
+    \item Natürliche Strukturen lassen sich leicht beschreiben
+    \item Beliebige Vergrößerungen sind möglich (TODO: War das so gewünscht?)
+\end{enumerate}
+
+Nachteile:
+
+\begin{itemize}
+    \item Hoher Rechenaufwand
+\end{itemize}
+
+\clearpage
+\subsection*{Teilaufgabe 6b}
+\textit{Im folgenden Beispiel sollen Sie Sphere-Tracing für Distanzfelder
+illustrieren. Das Distanzfeld in dieser Szene beschreibt die grauen Körper. Der
+Strahl, der auf Schnitt getestet werden soll, beginnt am Punkt \textbf{A} in
+Richtung von Punkt \textbf{B}, wo er auch endet. Zeichnen Sie die Schritte
+entlang des Strahls ein!}
+
+\includegraphics*[width=0.8\linewidth, keepaspectratio]{2a.png}
+
+TODO: Einzeichnen
+
+\clearpage
+\subsection*{Teilaufgabe 6c}
+\textit{Sie sollen nun Sphere-Tracing in der OpenGL Shading Language
+programmieren. Dabei soll der nächste Schnittpunkt eines Strahls mit der
+Szenengeometrie gefunden werden. Als Abbruchkriterium für die Suche dient die
+Distanz \texttt{tMax}. Ein Schnittpunkt ist gefunden, wenn die Distanzfunktion
+einen kleineren Wert als epsilon liefert. In diesem Fall soll die Funktion
+\texttt{sphereTrace} den Wert true und den Schnittpunkt pos zurückliefern. Die
+Anzahl der Sphere-Tracing-Schritte wird immer in steps zurückgegeben. Ihnen
+steht die Distanzfunktion \texttt{float DF( vec3 x )} zur Verfügung.}
+
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=spheretracing.frag]{glsl}{spheretracing.frag}
+
+\clearpage
+\section*{Aufgabe 7}
+\subsection*{Teilaufgabe 7a}
+\textit{i) Indexliste(n) für Primitivtyp \texttt{GL\_TRIANGLE\_STRIP}}
+
+p1: (2, 1, 3, 4, 5, 6, 7, 8)
+
+benötigt 1 Primitiv
+
+
+\textit{ii) Indexliste(n) für Primitivtyp \texttt{GL\_TRIANGLE\_FAN}}
+
+p1: (3, 2, 1, 4, 5)
+
+p2: (6, 4, 5, 7, 8)
+
+benötigt 2 Primitive
+
+
+\subsection*{Teilaufgabe 7b}
+\begin{tabular}{cp{8cm}p{1.5cm}p{1.5cm}p{1.5cm}}\toprule
+\#& Aufgabe    
+            &  Vertex-Shader     & Geometry-Shader   &   Fragment-Shader \\\midrule
+1 & Den Primitivtyp von \texttt{GL\_POINT} auf \texttt{GL\_TRIANGLE} ändern.
+            & \Square            & \CheckedBox       & \Square     \\
+2 & Die Projektionstransformation auf Vertizes anwenden und das Ergebnis in \texttt{gl\_Position} speichern.
+            & \CheckedBox        & \CheckedBox       & \Square     \\
+3 & Die Fragmentfarbe ausgeben.
+            & \Square            & \Square           & \CheckedBox \\
+4 & \texttt{uniform}-Variablen schreiben.
+            & \Square            & \Square           & \Square     \\
+5 & Das Beleuchtungsmodell auswerten, wenn \textit{Phong-Shading} verwendet wird.
+            & \Square            & \Square           & \CheckedBox \\
+6 & Aus Texturen lesen.
+            & \CheckedBox        & \CheckedBox       & \CheckedBox \\\bottomrule
+\end{tabular}
+
+
+\section*{Aufgabe 8}
+\subsection*{Teilaufgabe 8a}
+\[\lambda_3 = \frac{\triangle(\mathbf{x}, \mathbf{x}_1, \mathbf{x}_2)}{\triangle(\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3)}\]
+\subsection*{Teilaufgabe 8b}
+Dreiecksnetz weiter unterteilen (Tesselieren)
+\subsection*{Teilaufgabe 8c}
+
+\begin{enumerate}[label=(\roman*)]
+    \item Flat shading
+        \begin{align}
+        \mathbf{n} &= (\mathbf{x}_1 - \mathbf{x}_2) \times (\mathbf{x}_3 - \mathbf{x}_2)\\
+        \mathbf{f} &= \langle \tfrac{\mathbf{n}}{|\mathbf{n}|} , \mathbf{L} \rangle^+ \cdot (\lambda_1 \mathbf{c}_1 + \lambda_2 \mathbf{c}_2 + \lambda_3 \mathbf{c}_3)
+        \end{align}
+    \item Gouraud-Shading
+        \begin{align}
+        \mathbf{c}'_i &= \mathbf{c}_i \langle \mathbf{n}_i, \mathbf{L} \rangle^+ \quad (i \in \{1, 2, 3\})\\
+        \mathbf{f} &= \lambda_1 \mathbf{c}'_1 + \lambda_2 \mathbf{c}'_2 + \lambda_3 \mathbf{c}'_3
+        \end{align}
+    \item Phong-Shading
+        \begin{align}
+        \mathbf{n} &= \lambda_1 \mathbf{n}_1 + \lambda_2 \mathbf{n}_2 + \lambda_3 \mathbf{n}_3\\
+        \mathbf{f} &= \langle \tfrac{\mathbf{n}}{|\mathbf{n}|} , \mathbf{L} \rangle^+ \cdot (\lambda_1 \mathbf{c}_1 + \lambda_2 \mathbf{c}_2 + \lambda_3 \mathbf{c}_3)
+        \end{align}
+\end{enumerate}
+
+\section*{Aufgabe 9}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=keyframing.vert]{glsl}{keyframing.vert}
+
+\section*{Aufgabe 10}
+\subsection*{Teilaufgabe 10a}
+\inputminted[linenos, numbersep=5pt, tabsize=4, frame=lines, label=shader.frag]{glsl}{shader.frag}
+
+\subsection*{Teilaufgabe 10b}
+\textit{Beschreiben Sie kurz, welche Probleme auftreten.}
+
+Dreiecke, die von anderen Dreiecken verdeckt sind, werden aufgrund des Tiefentests auch an den Stellen nicht gezeichnet, wo ein davor liegendes Dreieck transparent ist. (Um ein korrektes Ergebnis zu erhalten, müssten zunächst das Schreiben in den Tiefenpuffer mittels \mintinline{cpp}{glDepthMask(GL_FALSE);} deaktiviert werden und dann die Dreiecke sortiert von hinten nach vorne gezeichnet werden.)
+
+\subsection*{Teilaufgabe 10c}
+\textit{Welche Technik bzw. Funktionalität setzt man in OpenGL üblicherweise ein, um die Probleme aus der vorherigen Aufgabe zu vermeiden?}
+
+Alpha-Testing
+
+\textit{In welchem Typ von OpenGL-Shader kann diese Funktionalität implementiert werden und wie lautet der entsprechende Befehl?}
+
+im Fragment-Shader: \mintinline{glsl}{if (gl_FragColor.a < 1.0) discard;}
+
+\section*{Aufgabe 11: Bézierkurven}
+\subsection*{Teilaufgabe 11a}
+\begin{itemize}
+    \item Falsch: Nur die Endpunkte werden interpoliert
+    \item Falsch: Eine Bezierkurve vom Grad $N$ hat $N+1$ Kontrollpunkte
+    \item Falsch: Sie bilden eine Basis des Polynomraums $\mathbb{R}[X]$
+    \item Richtig, da Bézierkurven eine Basis des Polynomraums sind.
+\end{itemize}
+
+\subsection*{Teilaufgabe 11b}
+\begin{itemize}
+    \item Nein: Konvexe Hülle der Kontrollpunkte
+    \item Ja
+    \item Ja
+    \item Nein: Variationsreduktion
+\end{itemize}
+
+\end{document}
